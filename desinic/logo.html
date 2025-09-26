@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Logo 7 óvalos — Responsive</title>
+<style>
+  :root{
+    /* Geometría / estilo */
+    --count: 7;
+    --full-top: 2;
+    --rx: 110;
+    --ry: 25;
+    --gap-free: 4;
+    --stroke: #ffffff;   /* color del trazo */
+    --stroke-w: 12;
+    --visible-ratio: 0.78;
+    --bg: transparent;
+
+    /* Animación lenta */
+    --speed: 4.2s;
+    --rise-delay: .22s;
+  }
+
+  *{ box-sizing: border-box }
+  html, body { width:100%; height:100%; margin:0; }
+  body{
+    /* sin min-height:100vh para que no haga el <object> gigante */
+    display:grid; place-items:center;
+    background: var(--bg);
+  }
+
+  /* El SVG ocupa todo el contenedor (el tamaño lo manda el contenedor) */
+  svg{ display:block; width:100%; height:100%; }
+
+  .oval{
+    fill:none;
+    stroke:var(--stroke);
+    stroke-width:var(--stroke-w);
+    stroke-linecap:round;
+
+    stroke-dasharray: var(--perim);
+    stroke-dashoffset: var(--perim);
+    animation: drawSlow var(--speed) cubic-bezier(.22,.8,.2,1) var(--delay) infinite both;
+  }
+
+  @keyframes drawSlow{
+    0%   { stroke-dashoffset: var(--perim); }
+    68%  { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: 0; }
+  }
+</style>
+</head>
+<body>
+
+<svg id="logo7" role="img" aria-label="Logo con 7 óvalos; 2 completos y 5 recortados"></svg>
+
+<script>
+(function(){
+  const cssVal = (name, fallback=0) => {
+    const v = getComputedStyle(document.documentElement).getPropertyValue(name);
+    const n = parseFloat(v);
+    return Number.isFinite(n) ? n : fallback;
+  };
+
+  const COUNT     = cssVal('--count', 7);
+  const FULLTOP   = cssVal('--full-top', 2);
+  const RX        = cssVal('--rx', 110);
+  const RY        = cssVal('--ry', 25);
+  const GAPFREE   = cssVal('--gap-free', 4);
+  const STROKE_W  = cssVal('--stroke-w', 12);
+  const VISRATIO  = cssVal('--visible-ratio', .78);
+  const RISE_D    = cssVal('--rise-delay', .22);
+
+  const svg = document.getElementById('logo7');
+
+  // Distancia entre centros (sin solapes al escalar)
+  const CENTER_GAP = 1 * RY + GAPFREE;
+
+  // Padding (anti-corte inferior)
+  const padX      = STROKE_W * 1.2;
+  const padTop    = STROKE_W * 1.2;
+  const padBottom = STROKE_W * 3.2;
+
+  const width  = RX * 2 + padX * 2;
+  const height = (RY * 2) + (COUNT - 1) * CENTER_GAP + padTop + padBottom;
+
+  // <-- SOLO viewBox para que sea responsive -->
+  svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+  svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+
+  const cx  = width / 2;
+  const top = padTop + RY;
+
+  // Perímetro de la elipse (Ramanujan)
+  const h = Math.pow(RX - RY, 2) / Math.pow(RX + RY, 2);
+  const PERIM = Math.PI * (RX + RY) * (1 + (3*h)/(10 + Math.sqrt(4 - 3*h)));
+
+  function createOval(cy, clipped=false, idxFromBottom=0){
+    const e = document.createElementNS('http://www.w3.org/2000/svg','ellipse');
+    e.setAttribute('cx', cx);
+    e.setAttribute('cy', cy);
+    e.setAttribute('rx', RX);
+    e.setAttribute('ry', RY);
+    e.setAttribute('class', 'oval');
+
+    e.style.setProperty('--perim', `${PERIM}`);
+    e.style.setProperty('--delay', `${idxFromBottom * RISE_D}s`);
+
+    if (clipped) {
+      const clipId = `clip-${Math.round(cy)}`;
+      const clip = document.createElementNS('http://www.w3.org/2000/svg','clipPath');
+      clip.setAttribute('id', clipId);
+      clip.setAttribute('clipPathUnits', 'userSpaceOnUse');
+
+      const extra = STROKE_W * 1.25;
+      const baseH = (2 * RY) * VISRATIO;
+      const rectH = baseH + extra;
+      const bottomEdge = cy + RY + STROKE_W * 1.25;
+      const rectY = bottomEdge - rectH;
+
+      const rect = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      rect.setAttribute('x', cx - RX - STROKE_W);
+      rect.setAttribute('y', rectY);
+      rect.setAttribute('width', RX * 2 + STROKE_W * 2);
+      rect.setAttribute('height', rectH);
+      clip.appendChild(rect);
+      svg.appendChild(clip);
+
+      e.setAttribute('clip-path', `url(#${clipId})`);
+    }
+    svg.appendChild(e);
+  }
+
+  const lastIndex = COUNT - 1;
+
+  // Óvalos inferiores (recortados)
+  for (let i = FULLTOP; i < COUNT; i++) {
+    const cy = top + i * CENTER_GAP;
+    createOval(cy, true, lastIndex - i);
+  }
+
+  // Óvalos superiores completos
+  for (let i = 0; i < Math.min(FULLTOP, COUNT); i++) {
+    const cy = top + i * CENTER_GAP;
+    createOval(cy, false, lastIndex - i);
+  }
+})();
+</script>
+
+</body>
+</html>

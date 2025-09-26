@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Paid Media — Hyper Pro Animation (SVG/CSS/JS)</title>
+<style>
+:root{
+  /* === Branding (puedes mapear a tu theme) === */
+  --brand: #1860ae;           /* azul principal */
+  --accent: #ff3d84;          /* fucsia */
+  --accent2:#00f2ea;          /* cian TikTok */
+  --accent3:#ff004f;          /* magenta TikTok */
+  --ink: #0e1c35;             /* carcasa móvil */
+  --screen1:#cfeefb; --screen2:#99d7ea;
+  --hand1:#ffb89f; --hand2:#f09a80;
+  --btn:#36b6ff; --white:#fff;
+
+  /* tamaño global (cambia y todo reacciona) */
+  --size: clamp(260px, 42vw, 480px);
+  --blur: 42px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:
+  radial-gradient(1400px 1000px at 60% 40%, #102257 0%, #0a0f24 45%, #070b16 100%)}
+.wrapper{min-height:100dvh;display:grid;place-items:center;padding:16px}
+svg{width:var(--size);height:auto;display:block}
+
+/* ===== Partes con filtros y glow ===== */
+.soft-shadow{ filter: drop-shadow(0 22px 38px rgba(0,0,0,.38)) }
+.floating { animation: float 6.4s ease-in-out infinite }
+.floating.slow{ animation-duration: 7.6s }
+.floating.fast{ animation-duration: 5.4s }
+@keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-14px)}100%{transform:translateY(0)}}
+
+/* Fondo nebuloso animado (shader-like) */
+.noise-warp{ animation: warp 24s ease-in-out infinite; transform-origin:center }
+@keyframes warp{
+  0%,100%{ filter: url(#warp-1) }
+  50%    { filter: url(#warp-2) }
+}
+
+/* Sparkle estrella */
+.spark{transform-origin:center}
+@keyframes spark{
+  0%{opacity:.0; transform:scale(.3) rotate(0deg)}
+  16%{opacity:1;  transform:scale(1) rotate(12deg)}
+  32%{opacity:.0; transform:scale(.3) rotate(24deg)}
+  100%{opacity:.0}
+}
+
+/* Badges “pop” en entrada */
+@keyframes popIn{
+  0%{transform:scale(.6); opacity:0}
+  60%{transform:scale(1.08); opacity:1}
+  100%{transform:scale(1)}
+}
+.badge{ animation: popIn .8s cubic-bezier(.2,.8,.2,1) both }
+
+/* Partículas fuera de pantalla para no “ensuciar” el layout */
+#particles{ pointer-events:none }
+
+/* Reducir movimiento */
+@media (prefers-reduced-motion:reduce){
+  .floating,.noise-warp{animation:none}
+}
+
+/* Accesibilidad / tipografías internas */
+text{ font-family: system-ui, -apple-system, Segoe UI, Roboto, "Poppins", Arial, sans-serif }
+
+/* Tooltip mini para debug (opcional) */
+.debug{position:fixed;inset:auto 8px 8px auto;color:#fff;font:12px/1.1 ui-monospace, SFMono-Regular, Menlo, monospace;opacity:.25}
+</style>
+</head>
+<body>
+<div class="wrapper">
+<svg viewBox="0 0 1000 760" role="img" aria-label="Móvil con UI social y badges de paid media, partículas y contadores dinámicos">
+  <!-- ====== DEFS: filtros complejos y gradientes ====== -->
+  <defs>
+    <!-- Glow volumétrico -->
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+      gradientTransform="translate(520 380) scale(300 260)">
+      <stop offset="0"  stop-color="#ff4b8a" stop-opacity=".55"/>
+      <stop offset=".55" stop-color="#0a0f24" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Warp usando turbulencia animada (dos estados para crossfade CSS) -->
+    <filter id="warp-1">
+      <feTurbulence type="fractalNoise" baseFrequency=".006" numOctaves="3" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="10" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="warp-2">
+      <feTurbulence type="fractalNoise" baseFrequency=".009" numOctaves="4" seed="9" result="n2"/>
+      <feDisplacementMap in="SourceGraphic" in2="n2" scale="18" xChannelSelector="B" yChannelSelector="R"/>
+    </filter>
+
+    <!-- Inner shadow para tarjetas -->
+    <filter id="inner">
+      <feOffset dx="0" dy="2"/>
+      <feGaussianBlur stdDeviation="2" result="b"/>
+      <feComposite in="b" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .25 0"/>
+      <feComposite in2="SourceGraphic" operator="over"/>
+    </filter>
+
+    <!-- Gooey para partículas (solo canal alfa) -->
+    <filter id="goo">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="b"/>
+      <feColorMatrix in="b" mode="matrix"
+       values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8" result="goo"/>
+      <feBlend in="SourceGraphic" in2="goo"/>
+    </filter>
+
+    <!-- Gradiente Instagram -->
+    <linearGradient id="ig" x1="0" x2="1">
+      <stop offset="0" stop-color="#f58529"/>
+      <stop offset=".5" stop-color="#dd2a7b"/>
+      <stop offset="1" stop-color="#8134af"/>
+    </linearGradient>
+
+    <!-- Sombra suave para todo -->
+    <filter id="soft">
+      <feDropShadow dx="0" dy="18" stdDeviation="14" flood-color="#000" flood-opacity=".32"/>
+    </filter>
+  </defs>
+
+  <!-- ====== BACKGROUND ANIM ====== -->
+  <g class="noise-warp">
+    <circle cx="520" cy="380" r="320" fill="url(#glow)"/>
+  </g>
+
+  <!-- ====== PARTICLES (gooey) ====== -->
+  <g id="particles" filter="url(#goo)"></g>
+
+  <!-- ====== BADGES flotantes ====== -->
+  <!-- Likes 0→100k -->
+  <g id="badgeLikes" class="badge floating fast" transform="translate(800,140)" filter="url(#soft)">
+    <rect x="-112" y="-40" rx="18" ry="18" width="224" height="80" fill="var(--accent)"/>
+    <rect x="-88" y="-16" rx="10" ry="10" width="72" height="32" fill="#fff" opacity=".18"/>
+    <path d="M-70,-4c0-10,8-16,14-16 5,0,9,3,12,8 3-5,7-8,12-8 6,0,14,6,14,16 0,14-20,24-26,30-6-6-26-16-26-30z" fill="#fff"/>
+    <text id="likesNum" x="6" y="10" fill="#fff" font-weight="900" font-size="30">0</text>
+  </g>
+
+  <!-- Instagram reel -->
+  <g class="badge floating slow" transform="translate(160,240)" filter="url(#soft)">
+    <rect x="-120" y="-76" rx="26" ry="26" width="240" height="152" fill="url(#ig)"/>
+    <g transform="translate(0,0)">
+      <circle cx="0" cy="0" r="30" fill="#fff" opacity=".92"/>
+      <path d="M-8 -12 L 14 0 L -8 12 Z" fill="url(#ig)"/>
+    </g>
+  </g>
+
+  <!-- TikTok promo -->
+  <g class="badge floating" transform="translate(840,420)" filter="url(#soft)">
+    <rect x="-120" y="-76" rx="26" ry="26" width="240" height="152" fill="#0f1320"/>
+    <g transform="translate(0,8) scale(1.25)">
+      <path d="M0 -36 v60 a18 18 0 1 1 -12 -17 v-28 c0-4 3-7 7-7h5z" fill="var(--accent2)"/>
+      <path d="M10 -36 c6 18 22 28 40 31 v16 c-20-2 -36-12 -46-25v36a18 18 0 1 1 -12 -17v-37c0-4 3-7 7-7h11z" fill="var(--accent3)" opacity=".95"/>
+    </g>
+    <text x="0" y="58" fill="#93a1c7" font-weight="700" font-size="16" text-anchor="middle">TikTok Ads</text>
+  </g>
+
+  <!-- ====== TELÉFONO + UI ====== -->
+  <g transform="translate(360,160) rotate(18)" class="soft-shadow">
+    <!-- Cuerpo -->
+    <rect x="-72" y="-72" width="360" height="620" rx="44" fill="var(--ink)"/>
+    <!-- Pantalla -->
+    <rect x="-44" y="-12" width="304" height="420" rx="22" fill="var(--screen1)"/>
+    <rect x="-44" y="-12" width="304" height="420" rx="22" fill="var(--screen2)" opacity=".35"/>
+    <!-- LEDs -->
+    <circle cx="60" cy="-42" r="8" fill="#203a63" opacity=".7"/>
+    <circle cx="92" cy="-42" r="8" fill="#203a63" opacity=".7"/>
+    <!-- Botón -->
+    <circle cx="112" cy="500" r="24" fill="var(--btn)"/>
+
+    <!-- Status bar -->
+    <g opacity=".55" transform="translate(-30,12)">
+      <circle cx="0" cy="0" r="3" fill="#fff"/>
+      <circle cx="12" cy="0" r="3" fill="#fff"/>
+      <circle cx="24" cy="0" r="3" fill="#fff"/>
+      <rect x="40" y="-2" width="102" height="5" rx="2.5" fill="#fff"/>
+      <rect x="146" y="-2" width="52" height="5" rx="2.5" fill="#fff"/>
+    </g>
+
+    <!-- Card 1: Like -->
+    <g transform="translate(-24,64)" filter="url(#inner)">
+      <rect x="0" y="0" width="248" height="86" rx="18" fill="#fff" opacity=".96"/>
+      <path d="M30 26c0-12 10-18 18-18 6 0 11 3 14 9 3-6 8-9 14-9 8 0 18 6 18 18 0 16-24 28-32 36-8-8-32-20-32-36z" fill="var(--accent)"/>
+      <rect x="108" y="22" width="106" height="12" rx="6" fill="#c6e9f6"/>
+      <rect x="108" y="46" width="72"  height="12" rx="6" fill="#c6e9f6"/>
+    </g>
+
+    <!-- Card 2: Vídeo -->
+    <g transform="translate(-24,160)" filter="url(#inner)">
+      <rect x="0" y="0" width="248" height="86" rx="18" fill="#fff" opacity=".96"/>
+      <circle cx="50" cy="43" r="22" fill="var(--accent)" opacity=".95"/>
+      <path d="M42 29 L 64 43 L 42 57 Z" fill="#fff"/>
+      <rect x="108" y="22" width="106" height="12" rx="6" fill="#c6e9f6"/>
+      <rect x="108" y="46" width="84"  height="12" rx="6" fill="#c6e9f6"/>
+    </g>
+
+    <!-- Card 3: Comentario -->
+    <g transform="translate(-24,256)" filter="url(#inner)">
+      <rect x="0" y="0" width="248" height="86" rx="18" fill="#fff" opacity=".96"/>
+      <path d="M24 24 h72 a18 18 0 0 1 18 18 v8 a18 18 0 0 1 -18 18 h-32 l-10 12 -2-12 h-28 a18 18 0 0 1 -18 -18 v-8 a18 18 0 0 1 18 -18z" fill="var(--accent)"/>
+      <rect x="108" y="22" width="88" height="12" rx="6" fill="#c6e9f6"/>
+      <rect x="108" y="46" width="66" height="12" rx="6" fill="#c6e9f6"/>
+    </g>
+  </g>
+
+  <!-- Mano al frente -->
+  <g transform="translate(370,560)" filter="url(#soft)">
+    <path d="M160 12c24-6 46 8 52 32l30 122c6 24-6 48-30 54l-14 4c-24 6-48-6-54-30l-18-64-36-24c-20-12-24-38-10-58l2-2c12-18 34-24 50-16l24 12 4-20c2-8 8-12 14-12 4 0 8 2 10 6l6 16z"
+          fill="var(--hand1)"/>
+    <path d="M120 136l-30-18c-10-8-16-20-12-32l2-4c12 2 26 8 36 18l14 36z" fill="var(--hand2)" opacity=".9"/>
+  </g>
+
+  <!-- Sparkles coreografiados -->
+  <g class="spark" transform="translate(560,160)">
+    <path d="M0 -8 L3 -2 L10 0 L3 2 L0 8 L-3 2 L-10 0 L-3 -2 Z" fill="#fff" opacity=".9">
+      <animate attributeName="opacity" values="0;1;0" dur="1.2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  <g class="spark" transform="translate(300,120)">
+    <path d="M0 -7 L3 -2 L8 0 L3 2 L0 7 L-3 2 L-8 0 L-3 -2 Z" fill="#fff" opacity=".0">
+      <animate attributeName="opacity" values="0;1;0" dur="1.6s" begin=".25s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  <g class="spark" transform="translate(700,270)">
+    <path d="M0 -6 L2 -2 L6 0 L2 2 L0 6 L-2 2 L-6 0 L-2 -2 Z" fill="#fff" opacity=".0">
+      <animate attributeName="opacity" values="0;1;0" dur="1.4s" begin=".5s" repeatCount="indefinite"/>
+    </path>
+  </g>
+</svg>
+</div>
+
+<!-- debug mini (puedes borrar) -->
+<div class="debug" id="dbg">fps: —</div>
+
+<script>
+/* ==========================================================
+   HYPER PRO ANIM ENGINE (sin librerías)
+   - Timeline con easing Bézier + muelle físico
+   - Parallax por ratón / scroll
+   - Partículas “gooey” con emisión estocástica
+   - Contador likes 0→100k (loop) con formateo inteligente
+   ========================================================== */
+
+(() => {
+  const svg = document.querySelector('svg');
+  const dbg = document.getElementById('dbg');
+
+  /* ---------- Utilidades numéricas ---------- */
+  const clamp = (x,min,max)=>Math.min(max,Math.max(min,x));
+  const lerp  = (a,b,t)=>a+(b-a)*t;
+  const bezier = (p0,p1,p2,p3,t)=> {
+    const cX=3*(p1-p0), bX=3*(p2-p1)-cX, aX=p3-p0-cX-bX;
+    return ((aX*t+bX)*t+cX)*t+p0;
+  };
+  // easeOutCubic
+  const ease = t => 1 - Math.pow(1 - t, 3);
+
+  /* ---------- Likes counter ---------- */
+  const likesEl = document.getElementById('likesNum');
+  (function likesLoop(){
+    const D = 3400, MAX = 100000;
+    let start = performance.now();
+    function fmt(n){
+      if(n>=1000000) return (n/1000000).toFixed(n%1000000?1:0).replace(/\.0$/,'')+'M';
+      if(n>=1000)    return (n/1000).toFixed(n%1000?1:0).replace(/\.0$/,'')+'k';
+      return String(n);
+    }
+    function tick(now){
+      const t = ((now - start) % D) / D;
+      const v = Math.round(MAX * ease(t));
+      likesEl.textContent = fmt(v);
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  })();
+
+  /* ---------- Parallax mouse/scroll ---------- */
+  const layers = [
+    { node: document.getElementById('badgeLikes'), amp: 12 },
+    { node: svg.querySelector('g.floating.slow'), amp: 16 },
+    { node: svg.querySelector('g.floating.fast'), amp: 8  },
+  ];
+  let parX = 0, parY = 0;
+  function onMove(e){
+    const r = svg.getBoundingClientRect();
+    const x = ( (e.clientX ?? r.left + r.width/2) - (r.left + r.width/2) ) / (r.width/2);
+    const y = ( (e.clientY ?? r.top  + r.height/2) - (r.top  + r.height/2) ) / (r.height/2);
+    parX = clamp(x,-1,1); parY = clamp(y,-1,1);
+  }
+  window.addEventListener('mousemove', onMove, {passive:true});
+  window.addEventListener('scroll', () => { parY += (window.scrollY/8000); }, {passive:true});
+
+  /* ---------- Partículas (gooey) ---------- */
+  const P = document.getElementById('particles');
+  const pool = [];
+  const rnd = (a,b)=>a+Math.random()*(b-a);
+  const COLORS = ['#ff4b8a','#ff7aa6','#ffd1dc','#7bdff2','#b2f7ef'];
+  function spawn(x=520,y=380){
+    const r = rnd(4,10);
+    const c = COLORS[(Math.random()*COLORS.length)|0];
+    const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.setAttribute('opacity', .85);
+    g.innerHTML = `<circle cx="0" cy="0" r="${r}" fill="${c}"/>`;
+    g.style.transform = `translate(${x}px,${y}px)`;
+    P.appendChild(g);
+    return {g,x,y,vx:rnd(-40,40),vy:rnd(-80,-30),life:rnd(1.2,2.2),age:0, r};
+  }
+  function emitBurst(n=10){
+    for(let i=0;i<n;i++) pool.push(spawn(rnd(460,580), rnd(320,440)));
+  }
+  // emisión inicial y periódica
+  emitBurst(18);
+  setInterval(()=>emitBurst(8), 1600 + (Math.random()*800|0));
+
+  /* ---------- Muelle físico para parallax suave ---------- */
+  let sx=0, sy=0, vx=0, vy=0;
+  const k=0.12, c=0.18, m=1;
+  function spring(dt){
+    const ax = (-k*(sx-parX) - c*vx)/m;
+    const ay = (-k*(sy-parY) - c*vy)/m;
+    vx += ax*dt; sx += vx*dt;
+    vy += ay*dt; sy += vy*dt;
+  }
+
+  /* ---------- Main RAF loop + FPS ---------- */
+  let last = performance.now(), fpsA=60;
+  function frame(now){
+    const dt = Math.min(0.033, (now-last)/1000); last = now;
+
+    // parallax spring
+    spring(dt);
+    layers.forEach(L=>{
+      const dx = sx * L.amp, dy = sy * L.amp;
+      L.node.style.transform = `translate(${dx}px,${dy}px)`;
+    });
+
+    // partículas update
+    for(let i=pool.length-1;i>=0;i--){
+      const p = pool[i];
+      p.age += dt;
+      p.vy += 28*dt; // gravedad
+      p.x  += p.vx*dt; p.y += p.vy*dt;
+      const life = p.age / p.life;
+      if(life>=1){
+        P.removeChild(p.g); pool.splice(i,1);
+      }else{
+        const o = 1 - life;
+        p.g.style.transform = `translate(${p.x}px,${p.y}px)`;
+        p.g.setAttribute('opacity', o);
+      }
+    }
+
+    // FPS debug
+    fpsA = lerp(fpsA, 1/dt, .08);
+    if(dbg) dbg.textContent = `fps: ${fpsA.toFixed(0)}  |  particles: ${pool.length}`;
+
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  /* ---------- Prefiere-reducir-movimiento ---------- */
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function applyReduced(){
+    const on = reduced.matches;
+    svg.style.animationPlayState = on ? 'paused' : 'running';
+  }
+  reduced.addEventListener?.('change', applyReduced);
+  applyReduced();
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contacto — Levantiq</title>
+
+  <!-- Favicon & hoja de estilos principal -->
+  <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="./assets/css/style.css" />
+
+  <!-- Google Fonts (mismo set que en index) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Source+Sans+Pro:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- Ajustes específicos para el botón y el embed (puedes moverlos a style.css si prefieres) -->
+  <style>
+    /* Botón estilo píldora, tamaño más contenido */
+    .btn-cta{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:.5rem;
+      padding:12px 20px;
+      font-size:16px;
+      font-weight:600;
+      color:#fff;
+      background: linear-gradient(90deg,#ff2d73,#ff6b6b);
+      border-radius: 16px 44px;
+      box-shadow: 0 10px 25px rgba(255,75,110,.25);
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .btn-cta:hover{ transform: translateY(-1px); box-shadow: 0 12px 28px rgba(255,75,110,.3); }
+
+    /* Centrado del botón bajo el título */
+    .cta-wrap{ text-align:center; margin: 8px 0 16px; }
+
+    /* Elimina el “rectángulo”/card por debajo del botón */
+    .cal-card{
+      background: transparent !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+      border: 0 !important;
+    }
+
+    /* Asegura que el calendario se vea (altura mínima) */
+    #my-cal-inline-30min{
+      width:100%;
+      min-height: 720px;
+      overflow: visible;
+    }
+  </style>
+
+  <!-- JSON-LD básico -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"ContactPage",
+    "name":"Contacto — Levantiq",
+    "url":"https://www.ejemplo.com/contacto.html",
+    "about":{
+      "@type":"Organization",
+      "name":"Levantiq",
+      "address":{"@type":"PostalAddress","addressLocality":"Madrid","addressCountry":"ES"}
+    }
+  }
+  </script>
+</head>
+<body id="top">
+
+  <!-- HEADER -->
+  <header class="header" data-header>
+    <div class="container">
+      <div class="overlay" data-overlay></div>
+
+      <a href="index.html"><h1 class="logo">Levantiq</h1></a>
+
+      <nav class="navbar" data-navbar>
+        <div class="navbar-top">
+          <a href="index.html" class="logo">Levantiq</a>
+          <button class="nav-close-btn" aria-label="Cerrar menú" data-nav-close-btn>
+            <ion-icon name="close-outline"></ion-icon>
+          </button>
+        </div>
+
+        <ul class="navbar-list">
+          <li class="navbar-item"><a href="index.html#home" class="navbar-link" data-navbar-link>Inicio</a></li>
+          <li class="navbar-item"><a href="index.html#about" class="navbar-link" data-navbar-link>Sobre nosotros</a></li>
+          <li class="navbar-item"><a href="index.html#services" class="navbar-link" data-navbar-link>Servicios</a></li>
+          <li class="navbar-item"><a href="index.html#features" class="navbar-link" data-navbar-link>Características</a></li>
+          <li class="navbar-item"><a href="index.html#blog" class="navbar-link" data-navbar-link>Blog</a></li>
+        </ul>
+      </nav>
+
+      <!-- Botón header → baja a la agenda -->
+      <a href="#agenda" class="btn-cta js-open-agenda">
+        <span>Reservar sesión</span>
+      </a>
+
+      <button class="nav-open-btn" aria-label="Abrir menú" data-nav-open-btn>
+        <ion-icon name="menu-outline"></ion-icon>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <article>
+
+      <!-- HERO -->
+      <section class="hero contact-hero">
+        <div class="container">
+          <div class="hero-content">
+            <p class="hero-subtitle">Estamos aquí para ayudarte</p>
+            <h2 class="h2 hero-title">Reserva una sesión</h2>
+            <p class="hero-text">Analizamos tu caso y te proponemos un plan de acción en 30 minutos.</p>
+            <a href="#agenda" class="btn-cta js-open-agenda">Ver disponibilidad</a>
+          </div>
+
+          <figure class="hero-banner">
+            <img src="./assets/images/hero-banner.png" width="694" height="529" loading="lazy" alt="Contacto Levantiq" class="w-100 banner-animation">
+          </figure>
+        </div>
+      </section>
+
+      <!-- AGENDA / CAL.COM -->
+      <section class="section" id="agenda">
+        <div class="container">
+          <h2 class="h2 section-title underline">Reserva una sesión</h2>
+
+          <!-- Calendario embebido -->
+          <div class="cal-card">
+            <div id="my-cal-inline-30min"></div>
+          </div>
+        </div>
+      </section>
+
+    </article>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-top section">
+      <div class="container">
+
+        <div class="footer-brand">
+          <a href="index.html" class="logo">Levantiq</a>
+          <p class="text">Automatizamos procesos, integramos sistemas y construimos experiencias digitales que generan negocio.</p>
+          <ul class="social-list">
+            <li><a href="#" class="social-link"><ion-icon name="logo-facebook"></ion-icon></a></li>
+            <li><a href="#" class="social-link"><ion-icon name="logo-instagram"></ion-icon></a></li>
+            <li><a href="#" class="social-link"><ion-icon name="logo-twitter"></ion-icon></a></li>
+          </ul>
+        </div>
+
+        <ul class="footer-list">
+          <li><p class="footer-list-title">Enlaces</p></li>
+          <li><a href="index.html#home" class="footer-link">Inicio</a></li>
+          <li><a href="index.html#about" class="footer-link">Sobre nosotros</a></li>
+          <li><a href="index.html#services" class="footer-link">Servicios</a></li>
+          <li><a href="index.html#blog" class="footer-link">Blog</a></li>
+          <li><a href="contacto.html" class="footer-link">Contáctanos</a></li>
+        </ul>
+
+        <ul class="footer-list">
+          <li><p class="footer-list-title">Servicios</p></li>
+          <li><a href="index.html#services" class="footer-link">Estrategia & Analítica</a></li>
+          <li><a href="index.html#services" class="footer-link">Desarrollo Web</a></li>
+          <li><a href="index.html#services" class="footer-link">Integraciones & Automatización</a></li>
+          <li><a href="index.html#features" class="footer-link">Cómo lo hacemos</a></li>
+        </ul>
+
+        <ul class="footer-list">
+          <li><p class="footer-list-title">Contacto</p></li>
+          <li class="footer-item">
+            <div class="footer-item-icon"><ion-icon name="call"></ion-icon></div>
+            <div><a href="tel:+34600000000" class="footer-item-link">+34 600 000 000</a></div>
+          </li>
+          <li class="footer-item">
+            <div class="footer-item-icon"><ion-icon name="mail"></ion-icon></div>
+            <div><a href="mailto:hola@levantiq.com" class="footer-item-link">hola@levantiq.com</a></div>
+          </li>
+          <li class="footer-item">
+            <div class="footer-item-icon"><ion-icon name="location"></ion-icon></div>
+            <address class="footer-item-link">Madrid, España</address>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="copyright">
+        &copy; 2025 <a href="index.html" class="copyright-link">Levantiq</a>. Todos los derechos reservados.
+      </p>
+    </div>
+  </footer>
+
+  <!-- GO TO TOP -->
+  <a href="#top" class="go-top active" aria-label="Volver arriba" data-go-top>
+    <ion-icon name="arrow-up-outline"></ion-icon>
+  </a>
+
+  <!-- JS principal -->
+  <script src="./assets/js/script.js"></script>
+
+  <!-- Ionicons -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+  <!-- Cal inline embed code (usa tu calLink real) -->
+  <script type="text/javascript">
+    (function (C, A, L) {
+      let p = function (a, ar) { a.q.push(ar); };
+      let d = C.document;
+      C.Cal = C.Cal || function () {
+        let cal = C.Cal; let ar = arguments;
+        if (!cal.loaded) {
+          cal.ns = {}; cal.q = cal.q || [];
+          d.head.appendChild(d.createElement("script")).src = A;
+          cal.loaded = true;
+        }
+        if (ar[0] === L) {
+          const api = function () { p(api, arguments); };
+          const namespace = ar[1];
+          api.q = api.q || [];
+          if (typeof namespace === "string") {
+            cal.ns[namespace] = cal.ns[namespace] || api;
+            p(cal.ns[namespace], ar);
+            p(cal, ["initNamespace", namespace]);
+          } else {
+            p(cal, ar);
+          }
+          return;
+        }
+        p(cal, ar);
+      };
+    })(window, "https://app.cal.com/embed/embed.js", "init");
+
+    Cal("init", "30min", { origin:"https://app.cal.com" });
+
+    Cal.ns["30min"]("inline", {
+      elementOrSelector:"#my-cal-inline-30min",
+      config: { "layout":"month_view" },
+      calLink: "ppt-boarding-okh1y4/30min"   // <-- sustituye por TU enlace real
+    });
+
+    Cal.ns["30min"]("ui", { "hideEventTypeDetails": false, "layout":"month_view" });
+  </script>
+
+  <!-- Scroll suave al embed al pulsar “Reservar sesión / Ver disponibilidad / Abrir agenda” -->
+  <script>
+    document.querySelectorAll('.js-open-agenda').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        // Evita salto brusco si hay hash
+        if (btn.hash) e.preventDefault();
+        const cal = document.getElementById('my-cal-inline-30min');
+        if (cal) cal.scrollIntoView({ behavior:'smooth', block:'start' });
+      });
+    });
+  </script>
+</body>
+</html>
