@@ -370,7 +370,7 @@ if (document.readyState === 'loading') {
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const chars = $$('.char', el); if (!chars.length) return;
     if (reduce){ chars.forEach(c => c.classList.add('on')); return; }
-    const step = cssn('--hero-typing-speed', document.documentElement, 58);
+    const step = cssn('--hero-typing-speed', document.documentElement, 36);
     let i = 0;
     (function tick(){
       chars[i].classList.add('on');

@@ -653,7 +653,6 @@ body {
 }
 
 .service-card .card-icon {
-  background-image: url("../images/service-banner-pattern.png");
   background-repeat: no-repeat;
   background-size: contain;
   background-color: hsla(229, 87%, 53%, 0.12);
@@ -699,6 +698,51 @@ body {
   color: var(--white);
   background-color: var(--winter-sky);
 }
+
+/* ===== Icono de servicio SIN cuadrado blanco ===== */
+.service-card .card-icon{
+  position: relative;
+  background: none !important;
+  background-image: none !important;
+}
+
+/* Quitamos el panel blanco: lo convertimos en un halo muy sutil */
+.service-card .card-icon::before{
+  content:"";
+  position:absolute;
+  inset: 6%;
+  border-radius: 18px;
+  background:
+    radial-gradient(60% 60% at 50% 45%, rgba(32,46,120,.10), transparent 62%);
+  box-shadow: none;           /* sin “borde” de panel */
+  z-index: 0;
+}
+
+/* Blob lila (igual que antes, pero un pelín más grande) */
+.service-card .card-icon::after{
+  content:"";
+  position:absolute;
+  inset: 14% 12% 16%;
+  z-index: 1;
+  background:
+    radial-gradient(60% 56% at 70% 35%, #cfd8f7 98%, transparent 100%),
+    radial-gradient(48% 44% at 32% 70%, #dfe5fb 98%, transparent 100%),
+    radial-gradient(42% 40% at 28% 26%, #dfe5fb 98%, transparent 100%),
+    radial-gradient(50% 48% at 74% 78%, #cfd8f7 98%, transparent 100%);
+  border-radius: 16px;
+  box-shadow:
+    inset 0 10px 18px rgba(255,255,255,.55),
+    inset 0 -6px 10px rgba(55,80,160,.06);
+}
+
+/* Icono encima del blob */
+.service-card .card-icon ion-icon{
+  position: relative;
+  z-index: 2;
+}
+
+/* Hover (opcional): mantenemos tu efecto */
+.service-card:hover .card-icon ion-icon{ color:#fff; }
 
 
 
