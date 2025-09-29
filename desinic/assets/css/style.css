@@ -20,21 +20,21 @@
    * colors
    */
 
---st-patricks-blue: hsl(198, 88%, 32%);       /* azul marino muy oscuro */
---amaranth-purple:  hsl(199, 85%, 55%);       /* cian/azul brillante de acento */
---royal-blue-dark:  hsl(209, 53%, 42%);       /* azul real oscuro */
---chrome-yellow:    hsl(36, 100%, 60%);       /* CTA naranja (botón) */
---space-cadet-1:    hsl(229, 50%, 22%);       /* azul grisáceo oscuro (ondas/fondos) */
---space-cadet-2:    hsl(229, 60%, 14%);       /* casi negro azulado */
---winter-sky_50:    hsla(199, 85%, 55%, 0.5); /* cian 50% para overlays/detalles */
---purple-navy:      hsl(220, 36%, 40%);       /* azul medio para bordes/cards */
---ksu-purple:       hsl(192, 76%, 61%);       /* azul principal (header/menu activo) */
-  --winter-sky: hsl(205, 87%, 53%);
-  --razzmatazz: hsl(335, 87%, 51%);    /* azul aún más claro (hover) */
---platinum:         hsl(0, 0%, 98%);          /* gris casi blanco (fondos suaves) */
---black_70:         hsla(223, 60%, 10%, 0.7); /* sombra/overlay con tinte azul */
---rajah:            hsl(36, 100%, 72%);       /* naranja claro (hover de CTA) */
---white:            hsl(0, 0%, 100%);         /* blanco puro */
+--st-patricks-blue: hsl(208, 100%, 32%);      /* azul de marca (títulos/fondos oscuros) */
+  --amaranth-purple:  hsl(208, 85%, 55%);       /* azul brillante de acento */
+  --royal-blue-dark:  hsl(208, 53%, 42%);       /* azul real oscuro */
+  --chrome-yellow:    hsl(36, 100%, 60%);       /* CTA naranja (botón) */
+  --space-cadet-1:    hsl(215, 45%, 22%);       /* azul grisáceo oscuro (ondas/fondos) */
+  --space-cadet-2:    hsl(215, 60%, 14%);       /* casi negro azulado */
+  --winter-sky_50:    hsla(208, 85%, 55%, 0.5); /* azul marca al 50% para overlays/detalles */
+  --purple-navy:      hsl(215, 30%, 40%);       /* azul medio para bordes/cards */
+  --ksu-purple:       hsl(208, 90%, 45%);       /* azul principal (header/menu activo) */
+  --winter-sky:       hsl(208, 85%, 53%);       /* azul vivo (iconos/links/elementos activos) */
+  --razzmatazz:       hsl(208, 90%, 58%);       /* azul más claro (hover) */
+  --platinum:         hsl(0, 0%, 98%);          /* gris casi blanco (fondos suaves) */
+  --black_70:         hsla(215, 40%, 10%, 0.7); /* sombra/overlay con tinte azul */
+  --rajah:            hsl(200, 100%, 72%);       /* naranja claro (hover de CTA) */
+  --white:            hsl(0, 0%, 100%);         /* blanco puro */
 
 
    --gradient-1: linear-gradient(90deg,var(--royal-blue-dark) 0,var(--ksu-purple) 51%,var(--royal-blue-dark));
@@ -1427,28 +1427,39 @@ section[id],
 
 .carousel .service-card { height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
 
-.carousel-btn {
-  position: absolute; top: 50%; transform: translateY(-50%);
-  border: none; width: 44px; height: 44px; border-radius: 999px;
-  background: var(--red-gradient, linear-gradient(135deg,#ff4b6e,#ff6b3d));
-  color: #fff; display: grid; place-items: center;
-  box-shadow: 0 8px 20px rgba(255,75,110,.35); cursor: pointer; z-index: 2;
+/* Flechas del carrusel: azul de marca */
+.carousel-btn{
+  position:absolute; top:50%; transform:translateY(-50%);
+  border:none; width:44px; height:44px; border-radius:999px;
+  background: linear-gradient(135deg, var(--ksu-purple), var(--royal-blue-dark));
+  color:#fff; display:grid; place-items:center;
+  box-shadow: 0 8px 20px hsl(208 85% 53% / .35); /* ≈ var(--winter-sky) */
+  cursor:pointer; z-index:2;
+  transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
 }
-.carousel-btn.prev { left: -6px; } .carousel-btn.next { right: -6px; }
-.carousel-btn:disabled { opacity: .4; cursor: default; }
-
-/* Cabecera de sección con botón a la derecha */
-.section-head {
-  display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  margin-bottom: 12px;
+.carousel-btn.prev{ left:-6px; }
+.carousel-btn.next{ right:-6px; }
+.carousel-btn:hover,
+.carousel-btn:focus-visible{
+  transform: translateY(-50%) scale(1.04);
+  box-shadow: 0 10px 26px hsl(208 85% 53% / .45);
 }
+.carousel-btn:disabled{ opacity:.4; cursor:default; }
 
-/* Botón de alternar vista (rejilla/carrusel) */
-.view-toggle {
-  display: inline-grid; place-items: center;
-  width: 44px; height: 44px; border-radius: 999px; border: 0;
-  background: var(--red-gradient, linear-gradient(135deg,#ff4b6e,#ff6b3d));
-  color: #fff; box-shadow: 0 8px 20px rgba(255,75,110,.35); cursor: pointer;
+/* Botón alternar vista (rejilla/carrusel) */
+.view-toggle{
+  display:inline-grid; place-items:center;
+  width:44px; height:44px; border-radius:999px; border:0;
+  background: linear-gradient(135deg, var(--ksu-purple), var(--royal-blue-dark));
+  color:#fff;
+  box-shadow: 0 8px 20px hsl(208 85% 53% / .35);
+  cursor:pointer;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.view-toggle:hover,
+.view-toggle:focus-visible{
+  transform: scale(1.04);
+  box-shadow: 0 10px 26px hsl(208 85% 53% / .45);
 }
 
 .carousel .view-toggle{ position:absolute; right:8px; bottom:-28px; z-index:4; }
@@ -1525,16 +1536,22 @@ section[id],
   color:#172554;               /* azul oscuro legible */
 }
 
-/* Botón + dentro del círculo con gradiente del sitio */
+/* Botón + dentro del círculo con colores de la marca */
 .faq-item .toggle{
   margin-left:auto;
   flex:0 0 auto;
   width:40px; height:40px; border-radius:999px;
-  background:var(--red-gradient, linear-gradient(135deg,#ff4b6e,#ff6b3d));
-  box-shadow:0 8px 20px rgba(255,75,110,.35);
+
+  /* usa el gradiente azul del sitio */
+  background: linear-gradient(135deg, var(--ksu-purple), var(--royal-blue-dark));
+
+  /* sombra con el azul principal */
+  box-shadow: 0 8px 20px hsl(208 85% 53% / .35); /* ≈ var(--winter-sky) */
+
   position:relative;
   transition:transform .2s ease;
 }
+
 .faq-item .toggle::before,
 .faq-item .toggle::after{
   content:""; position:absolute; left:50%; top:50%;
@@ -1781,3 +1798,224 @@ object.brand-logo, iframe.brand-logo{ display:block; }
     box-shadow           .25s ease,
     color                .25s ease !important;
 }
+
+/* ============================
+   SERVICIOS — Beauty Pack
+   (pegar al FINAL del style.css)
+   ============================ */
+
+/* Paleta suave para el panel (parte superior clara + base azulada) */
+:root{
+  --svc-panel-1: #eef3ff;  /* esquina superior */
+  --svc-panel-2: #dbe6ff;  /* base */
+  --svc-edge:    #f8faff;  /* ribete muy claro */
+  --svc-glow-rgb: 52, 112, 255; /* tono de brillo (≈ var(--winter-sky)) */
+}
+
+/* Card más “viva” (halo + sombra suave) */
+#services .service-card{
+  background: #fff;
+  border-radius: 20px;
+  padding: 28px 24px 30px;
+  box-shadow:
+    0 18px 40px rgba(2,6,23,.06),
+    0 2px 0 rgba(255,255,255,.8) inset;
+  transition: transform .28s cubic-bezier(.16,1,.3,1), box-shadow .28s ease;
+  position: relative;
+  isolation: isolate;
+}
+#services .service-card::before{
+  content:"";
+  position:absolute; inset: 6% 10% auto 10%; height: 42%;
+  background: radial-gradient(60% 65% at 50% 40%, rgba(var(--svc-glow-rgb),.10), transparent 62%);
+  filter: blur(8px);
+  z-index: -1;
+}
+#services .service-card:hover{
+  transform: translateY(-2px);
+  box-shadow:
+    0 22px 50px rgba(2,6,23,.09),
+    0 2px 0 rgba(255,255,255,.9) inset;
+}
+
+/* --- PANEL AZUL (el “cuadrado” bonito) --- */
+#services .service-card .card-icon{
+  /* reseteos por si hay reglas anteriores */
+  background: none !important;
+  background-image: none !important;
+  position: relative;
+  width: 132px; height: 132px;
+  max-width: none;
+  aspect-ratio: auto;
+  border-radius: 22px;
+  margin-inline: auto;
+  display: grid; place-items: center;
+  box-shadow:
+    0 14px 30px rgba(var(--svc-glow-rgb), .10),
+    inset 0 1px 0 var(--svc-edge),
+    inset 0 -10px 16px rgba(60, 90, 200, .10);
+  /* degradado principal del panel */
+  background:
+    linear-gradient(180deg, var(--svc-panel-1) 0%, var(--svc-panel-2) 100%);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* brillo exterior */
+#services .service-card .card-icon::before{
+  content:"";
+  position:absolute; inset:-16px;
+  border-radius: 26px;
+  background: radial-gradient(60% 60% at 50% 15%, rgba(var(--svc-glow-rgb),.11), transparent 62%);
+  filter: blur(10px);
+  z-index:-1;
+}
+
+/* luces internas: curva y destellos blancos muy suaves */
+#services .service-card .card-icon::after{
+  content:"";
+  position:absolute; inset:0; border-radius:inherit;
+  background:
+    radial-gradient(70% 100% at 80% 18%, rgba(226, 221, 247, 0.38) 0 58%, transparent 60%),
+    radial-gradient(65% 58%  at 22% 78%, rgba(128, 152, 217, 0.18) 0 56%, transparent 58%),
+    linear-gradient( to bottom right, rgba(136, 213, 227, 0.22), rgba(64, 44, 143, 0) 42% );
+  mix-blend-mode: overlay;
+  pointer-events:none;
+  opacity:.95;
+}
+
+/* Ionicon encima del panel */
+#services .service-card .card-icon ion-icon{
+  font-size: 58px;
+  color: var(--winter-sky);
+  filter: drop-shadow(0 2px 6px rgba(var(--svc-glow-rgb),.25));
+  transition: transform .35s cubic-bezier(.16,1,.3,1), color .2s ease;
+}
+#services .service-card:hover .card-icon ion-icon{
+  transform: translateY(-2px) scale(1.03);
+}
+
+/* Tipografía y espaciados más finos */
+#services .service-card .title{
+  margin-top: 18px;
+  margin-bottom: 8px;
+  font-weight: 800;
+  letter-spacing: .2px;
+}
+#services .service-card .text{
+  color: #4f5e7a;
+  max-width: 62ch;
+  margin-inline: auto;
+}
+
+/* Carrusel: separación y ancho cómodos */
+.carousel .carousel-track{ gap: 26px !important; }
+@media (min-width: 992px){
+  .carousel .carousel-slide{ flex-basis: 420px; }
+}
+
+/* === ABOUT · aparición aleatoria de <strong> === */
+.about .about-text strong{
+  display:inline-block;
+  font-weight: 600;                 /* no tan negrita antes de entrar */
+  opacity: 0;                       /* no se ven hasta el scroll */
+  transform: translate(var(--from-x,0), var(--from-y,0))
+             rotate(var(--rot,0deg)) scale(.96);
+  filter: blur(2px);
+  will-change: transform, opacity, filter;
+  transition:
+    transform .9s cubic-bezier(.22,.8,.2,1),
+    opacity   .9s ease,
+    filter    .9s ease,
+    font-weight .25s ease;
+}
+
+/* Estado final (ya en su sitio) */
+.about .about-text strong.in{
+  opacity: 1;
+  transform: none;
+  filter: blur(0);
+  font-weight: 800;                 /* ya “negrita” al llegar */
+}
+
+/* Accesibilidad: usuarios con “reducir movimiento” */
+@media (prefers-reduced-motion: reduce){
+  .about .about-text strong{
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+
+/* === FEATURES · atención y microinteracciones === */
+
+/* Estado inicial: fuera de foco y ligeramente desplazadas */
+#features .features-card{
+  opacity: 0;
+  transform: translateY(18px) scale(.985);
+  filter: blur(2px);
+  will-change: transform, opacity, filter;
+  transition:
+    transform .7s cubic-bezier(.22,.8,.2,1),
+    opacity   .7s ease,
+    filter    .7s ease,
+    box-shadow .25s ease;
+}
+
+/* Estado visible (cuando se añade .in) */
+#features .features-card.in{
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* Elevación y pequeño brillo al hover */
+#features .features-card:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 14px 38px rgba(2,6,23,.12);
+}
+
+/* Icono: anillo de pulso cuando la card está visible */
+#features .features-card.in .icon{
+  position: relative;
+  isolation: isolate;
+}
+#features .features-card.in .icon::after{
+  content:"";
+  position:absolute; inset:-6px;
+  border-radius: 999px;
+  background: radial-gradient(60% 60% at 50% 50%, var(--winter-sky_50), transparent 70%);
+  opacity: 0;
+  transform: scale(.88);
+  animation: featuresPulse 2.6s ease-out .35s infinite;
+  z-index: -1;
+}
+@keyframes featuresPulse{
+  0%   { opacity: 0; transform: scale(.88); }
+  12%  { opacity: .55; }
+  40%  { opacity: 0;  transform: scale(1.25); }
+  100% { opacity: 0;  transform: scale(1.25); }
+}
+
+/* Sheen (destello) muy sutil sobre el icono al hover */
+#features .features-card .icon{
+  overflow: hidden;
+}
+#features .features-card .icon::before{
+  content:"";
+  position:absolute; inset:0; pointer-events:none;
+  background: linear-gradient(120deg, transparent 20%, rgba(255,255,255,.28) 35%, transparent 50%);
+  transform: translateX(-130%) rotate(8deg);
+  transition: transform .6s ease;
+}
+#features .features-card:hover .icon::before{
+  transform: translateX(130%) rotate(8deg);
+}
+
+/* Accesibilidad: reducir movimiento */
+@media (prefers-reduced-motion: reduce){
+  #features .features-card{ opacity:1; transform:none; filter:none; transition:none; }
+  #features .features-card .icon::before,
+  #features .features-card.in .icon::after{ display:none; }
+}
+

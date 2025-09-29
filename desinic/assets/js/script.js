@@ -11,16 +11,16 @@
   };
   const on   = (t, type, fn, opt) => t && t.addEventListener(type, fn, opt);
 
-  /* ========= Scroll en recarga / hash ========= */
-if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+/* ========= Scroll en recarga / hash (no forzar al top) ========= */
+if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
 
 const clearHashOnFirstPaint = () => {
   if (location.hash) {
-    // Quita el hash para que el navegador no salte a esa sección
+    // Quita el hash para evitar el salto automático del navegador
     history.replaceState(null, '', location.pathname + location.search);
+    // Solo en este caso subimos al inicio
+    window.scrollTo(0, 0);
   }
-  // Sube al inicio (por si el navegador guardó la posición)
-  window.scrollTo(0, 0);
 };
 
 if (document.readyState === 'loading') {
@@ -28,6 +28,7 @@ if (document.readyState === 'loading') {
 } else {
   clearHashOnFirstPaint();
 }
+
 
 
   /* ========= Navbar / Overlay / Header sticky ========= */
@@ -414,6 +415,71 @@ if (document.readyState === 'loading') {
     ? on(document, 'DOMContentLoaded', start, { once:true })
     : start();
 }());
+
+
+/* === ABOUT · animar <strong> desde posiciones aleatorias === */
+(() => {
+  const section = document.querySelector('#about');
+  if (!section) return;
+
+  const strongs = Array.from(section.querySelectorAll('.about-text strong'));
+  if (!strongs.length) return;
+
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Asigna offsets aleatorios de partida a cada <strong>
+  // Rango: ±60vw horizontal, ±40vh vertical, y una pequeña rotación.
+  strongs.forEach(s => {
+    const rx = (Math.random()*120 - 60).toFixed(1) + 'vw';
+    const ry = (Math.random()*80  - 40).toFixed(1) + 'vh';
+    const rot = (Math.random()*24 - 12).toFixed(1) + 'deg';
+    s.style.setProperty('--from-x', rx);
+    s.style.setProperty('--from-y', ry);
+    s.style.setProperty('--rot',    rot);
+  });
+
+  // Cuando la sección entra en viewport, “lanzamos” cada palabra
+  const io = new IntersectionObserver((entries, obs) => {
+    if (!entries.some(e => e.isIntersecting)) return;
+    const base = 120; // ms
+    strongs.forEach(s => {
+      const jitter = Math.random() * 420;            // variación aleatoria
+      const delay  = reduce ? 0 : base + jitter;
+      setTimeout(() => s.classList.add('in'), delay);
+    });
+    obs.disconnect();
+  }, { threshold: 0.35 });
+
+  io.observe(section);
+})();
+
+/* === FEATURES · entrada escalonada + delays aleatorios === */
+(() => {
+  const section = document.querySelector('#features');
+  if (!section) return;
+
+  const cards = Array.from(section.querySelectorAll('.features-card'));
+  if (!cards.length) return;
+
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const io = new IntersectionObserver((entries, obs) => {
+    if (!entries.some(e => e.isIntersecting)) return;
+
+    // Aplica un pequeño “jitter” aleatorio a cada card para que no entren todas igual
+    cards.forEach((card, i) => {
+      const base   = 80 * i;                 // escalonado por orden
+      const jitter = Math.random() * 220;    // variación aleatoria
+      const delay  = reduce ? 0 : base + jitter;
+      card.style.transitionDelay = `${delay}ms`;
+      card.classList.add('in');
+    });
+
+    obs.disconnect();
+  }, { threshold: 0.35 });
+
+  io.observe(section);
+})();
 
 
 })();
