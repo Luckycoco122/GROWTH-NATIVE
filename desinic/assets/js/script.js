@@ -2,14 +2,14 @@
 
 (() => {
   /* ========= Helpers ========= */
-  const $    = (s, el = document) => el.querySelector(s);
-  const $$   = (s, el = document) => Array.from(el.querySelectorAll(s));
+  const $  = (s, el = document) => el.querySelector(s);
+  const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
   const cssn = (name, el = document.documentElement, fb = 0) => {
     const v = getComputedStyle(el).getPropertyValue(name).trim();
     const n = parseFloat(v);
     return Number.isFinite(n) ? n : fb;
   };
-  const on   = (t, type, fn, opt) => t && t.addEventListener(type, fn, opt);
+  const on = (t, type, fn, opt) => t && t.addEventListener(type, fn, opt);
 
   /* ========= Scroll en recarga / hash (no forzar top salvo #hash) ========= */
   if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
@@ -31,71 +31,84 @@
   const closeBtn = $('[data-nav-close-btn]');
   const goTopBtn = $('[data-go-top]');
 
-  /* ====== PINTAR LOGO / WORDMARK ====== */
-  const paintObject = (obj, color) => {
-    const doc = obj?.contentDocument;
+  /* --- helpers de pintado del logo --- */
+  function paintLogoObject(obj, color){
+    const doc = obj && obj.contentDocument;
     if (!doc) return;
     doc.documentElement.style.setProperty('--stroke', color);
     doc.querySelectorAll('.oval').forEach(el => el.style.stroke = color);
-  };
-  const paintInline = (host, color) => {
-    const svg = host.matches?.('svg') ? host : host.querySelector?.('svg');
+  }
+  function paintInlineLogo(host, color){
+    const svg = host && (host.matches?.('svg') ? host : host.querySelector?.('svg'));
     if (!svg) return;
     svg.querySelectorAll('.oval').forEach(el => el.style.stroke = color);
-  };
+  }
 
-  const repaintBrand = () => {
-    const brandBlue   = getComputedStyle(document.documentElement)
-                          .getPropertyValue('--st-patricks-blue').trim() || '#1860AE';
-    const white       = '#fff';
-    const headerColor = getComputedStyle(header || document.documentElement).getPropertyValue('--color').trim();
-    const scrolled    = header?.classList.contains('active');
-    const menuOpen    = header?.classList.contains('menu-open');
+  /* Inyecta logo.html dentro del contenedor móvil si está vacío */
+  function ensureMobileLogo(){
+    const holder = $('#brandLogoMobile');
+    if (!holder) return;
+    const already = holder.querySelector('object.brand-logo');
+    if (already) return;
 
-    // Regla: menú abierto => azul; si no, blanco arriba y azul al hacer scroll
-    const color = menuOpen ? brandBlue : (scrolled ? (headerColor || brandBlue) : white);
+    const obj = document.createElement('object');
+    obj.setAttribute('data', './logo.html'); // ajusta si tu ruta real es distinta
+    obj.setAttribute('type', 'text/html');
+    obj.setAttribute('class', 'brand-logo');
+    obj.setAttribute('aria-label', 'Logo animado');
+    obj.addEventListener('load', () => repaintBrand(), { once:true });
+    holder.appendChild(obj);
+  }
 
-    // 1) <object> directos o dentro de contenedores de marca
-    const objectEls = [
-      ...$$('object.brand-logo'),
-      ...$$('#brandLogo object'),
-      ...$$('#brandLogoMobile object'),
-      ...$$('.navbar-top object.brand-logo')
-    ];
-    objectEls.forEach(obj => {
-      if (obj.contentDocument) paintObject(obj, color);
-      else obj.addEventListener('load', () => paintObject(obj, color), { once:true });
+  /* Devuelve el color que debe tener la marca ahora mismo */
+  function currentBrandColor(){
+    const brandBlue = getComputedStyle(document.documentElement)
+                      .getPropertyValue('--st-patricks-blue').trim() || '#1860AE';
+    const white = '#fff';
+    const scrolled = header?.classList.contains('active');
+    const menuOpen = header?.classList.contains('menu-open');
+    if (menuOpen) return brandBlue;      // Menú abierto: SIEMPRE azul
+    return scrolled ? brandBlue : white; // Menú cerrado: arriba blanco, con scroll azul
+  }
+
+  /* Pinta logo (desktop y móvil) + wordmark */
+  function repaintBrand(){
+    const color = currentBrandColor();
+
+    // <object> del logo (desktop + móvil)
+    const objects = $$('object.brand-logo');
+    objects.forEach(obj => {
+      if (obj?.contentDocument) paintLogoObject(obj, color);
+      else obj?.addEventListener('load', () => paintLogoObject(obj, color), { once:true });
     });
 
-    // 2) SVG inline
-    [
-      ...$$('#brandLogo svg'),
-      ...$$('#brandLogoMobile svg')
-    ].forEach(svg => paintInline(svg, color));
+    // variantes inline (por si existieran)
+    $$('#brandLogo svg, #brandLogoMobile svg').forEach(svg => paintInlineLogo(svg, color));
 
-    // 3) Texto (wordmark) en header y en el panel móvil
+    // texto “GROWTH NATIVE” (desktop + móvil + fallback .logo.brand)
     [
       ...$$('#brandLogo .brand-text'),
-      ...$$('#brandLogoMobile .brand-text'),
-      ...$$('.logo.brand'),
-      ...$$('.navbar-top .logo')
+      ...$$('.navbar-top .brand-text'),
+      ...$$('.logo.brand .brand-text'),
+      ...$$('.logo.brand')
     ].forEach(el => { el.style.color = color; });
-  };
+  }
 
-  const openNav  = () => {
+  /* Abrir/cerrar menú móvil */
+  function openNav(){
     navbar?.classList.add('active');
     overlay?.classList.add('active');
     header?.classList.add('menu-open'); // fuerza azul marca
+    ensureMobileLogo();
     repaintBrand();
-    // repinta otra vez por si el <object> tarda en cargar
-    setTimeout(repaintBrand, 0);
-  };
-  const closeNav = () => {
+    setTimeout(repaintBrand, 0);        // por si el <object> tarda en montar su DOM
+  }
+  function closeNav(){
     navbar?.classList.remove('active');
     overlay?.classList.remove('active');
     header?.classList.remove('menu-open');
     repaintBrand();
-  };
+  }
 
   on(openBtn,  'click', openNav);
   on(closeBtn, 'click', closeNav);
@@ -103,6 +116,7 @@
   $$('[data-navbar-link]').forEach(a => on(a, 'click', closeNav));
   on(window, 'keydown', e => (e.key === 'Escape') && closeNav());
 
+  /* Sticky + color al hacer scroll */
   on(window, 'scroll', () => {
     const active = window.scrollY >= 400;
     header?.classList.toggle('active', active);
@@ -110,7 +124,8 @@
     repaintBrand();
   }, { passive: true });
 
-  on(document, 'DOMContentLoaded', repaintBrand, { once:true });
+  /* Primer pintado */
+  on(document, 'DOMContentLoaded', () => { ensureMobileLogo(); repaintBrand(); }, { once:true });
   on(window, 'load', repaintBrand, { once:true });
   on(window, 'resize', () => setTimeout(repaintBrand, 60), { passive:true });
 
