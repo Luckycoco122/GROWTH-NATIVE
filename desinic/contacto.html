@@ -15,71 +15,29 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Source+Sans+Pro:wght@600;700&display=swap" rel="stylesheet">
 
-  <!-- Ajustes específicos para el botón y el embed (puedes moverlos a style.css si prefieres) -->
-  <style>
-    /* Botón estilo píldora, tamaño más contenido */
-    .btn-cta{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:.5rem;
-      padding:12px 20px;
-      font-size:16px;
-      font-weight:600;
-      color:#fff;
-      background: linear-gradient(90deg,#ff2d73,#ff6b6b);
-      border-radius: 16px 44px;
-      box-shadow: 0 10px 25px rgba(255,75,110,.25);
-      transition: transform .15s ease, box-shadow .15s ease;
-    }
-    .btn-cta:hover{ transform: translateY(-1px); box-shadow: 0 12px 28px rgba(255,75,110,.3); }
 
-    /* Centrado del botón bajo el título */
-    .cta-wrap{ text-align:center; margin: 8px 0 16px; }
-
-    /* Elimina el “rectángulo”/card por debajo del botón */
-    .cal-card{
-      background: transparent !important;
-      box-shadow: none !important;
-      padding: 0 !important;
-      border: 0 !important;
-    }
-
-    /* Asegura que el calendario se vea (altura mínima) */
-    #my-cal-inline-30min{
-      width:100%;
-      min-height: 720px;
-      overflow: visible;
-    }
-  </style>
-
-  <!-- JSON-LD básico -->
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"ContactPage",
-    "name":"Contacto — Levantiq",
-    "url":"https://www.ejemplo.com/contacto.html",
-    "about":{
-      "@type":"Organization",
-      "name":"Levantiq",
-      "address":{"@type":"PostalAddress","addressLocality":"Madrid","addressCountry":"ES"}
-    }
-  }
-  </script>
 </head>
 <body id="top">
 
-  <!-- HEADER -->
+  <!-- #HEADER -->
   <header class="header" data-header>
     <div class="container">
       <div class="overlay" data-overlay></div>
 
-      <a href="index.html"><h1 class="logo">Levantiq</h1></a>
+      <!-- Logo (desktop) → Home -->
+      <a href="index.html" class="logo brand" aria-label="Ir a inicio">
+        <object data="./logo.html" type="text/html" class="brand-logo" aria-label="Logo animado">
+          <img src="./assets/img/logo-static.png" alt="GROWTH NATIVE — Agencia de Paid Media" />
+        </object>
+        <h1 class="logo">GROWTH NATIVE</h1>
+      </a>
 
-      <nav class="navbar" data-navbar>
+      <nav class="navbar" data-navbar aria-label="Navegación principal">
         <div class="navbar-top">
-          <a href="index.html" class="logo">Levantiq</a>
+          <a href="index.html" class="logo brand" aria-label="Ir a inicio">
+            <span id="brandLogoMobile" class="brand-logo" aria-hidden="true"></span>
+            <span class="brand-text">GROWTH NATIVE</span>
+          </a>
           <button class="nav-close-btn" aria-label="Cerrar menú" data-nav-close-btn>
             <ion-icon name="close-outline"></ion-icon>
           </button>
@@ -87,16 +45,16 @@
 
         <ul class="navbar-list">
           <li class="navbar-item"><a href="index.html#home" class="navbar-link" data-navbar-link>Inicio</a></li>
-          <li class="navbar-item"><a href="index.html#about" class="navbar-link" data-navbar-link>Sobre nosotros</a></li>
+          <li class="navbar-item"><a href="index.html#about" class="navbar-link" data-navbar-link>Por qué nosotros</a></li>
           <li class="navbar-item"><a href="index.html#services" class="navbar-link" data-navbar-link>Servicios</a></li>
-          <li class="navbar-item"><a href="index.html#features" class="navbar-link" data-navbar-link>Características</a></li>
-          <li class="navbar-item"><a href="index.html#blog" class="navbar-link" data-navbar-link>Blog</a></li>
+          <li class="navbar-item"><a href="index.html#features" class="navbar-link" data-navbar-link>Cómo trabajamos</a></li>
+          <li class="navbar-item"><a href="index.html#blog" class="navbar-link" data-navbar-link>Recursos</a></li>
         </ul>
       </nav>
 
-      <!-- Botón header → baja a la agenda -->
-      <a href="#agenda" class="btn-cta js-open-agenda">
-        <span>Reservar sesión</span>
+      <!-- Botón header → agenda en Contacto -->
+      <a href="contacto.html#agenda" class="btn-cta" aria-label="Agendar una llamada de valoración">
+        <span>Contáctanos</span>
       </a>
 
       <button class="nav-open-btn" aria-label="Abrir menú" data-nav-open-btn>
@@ -139,63 +97,73 @@
     </article>
   </main>
 
-  <!-- FOOTER -->
+   <!-- #FOOTER -->
   <footer class="footer">
     <div class="footer-top section">
       <div class="container">
 
         <div class="footer-brand">
-          <a href="index.html" class="logo">Levantiq</a>
-          <p class="text">Automatizamos procesos, integramos sistemas y construimos experiencias digitales que generan negocio.</p>
-          <ul class="social-list">
-            <li><a href="#" class="social-link"><ion-icon name="logo-facebook"></ion-icon></a></li>
-            <li><a href="#" class="social-link"><ion-icon name="logo-instagram"></ion-icon></a></li>
-            <li><a href="#" class="social-link"><ion-icon name="logo-twitter"></ion-icon></a></li>
+          <a href="#" class="logo">GROWTH NATIVE</a>
+          <p class="text">
+            Paid media orientado a negocio. Estrategia, activación y optimización con datos y transparencia.
+          </p>
+
+          <ul class="social-list" aria-label="Redes sociales">
+            <li><a href="#" class="social-link" aria-label="Facebook"><ion-icon name="logo-facebook"></ion-icon></a></li>
+            <li><a href="#" class="social-link" aria-label="Instagram"><ion-icon name="logo-instagram"></ion-icon></a></li>
+            <li><a href="#" class="social-link" aria-label="LinkedIn"><ion-icon name="logo-linkedin"></ion-icon></a></li>
           </ul>
         </div>
 
         <ul class="footer-list">
           <li><p class="footer-list-title">Enlaces</p></li>
           <li><a href="index.html#home" class="footer-link">Inicio</a></li>
-          <li><a href="index.html#about" class="footer-link">Sobre nosotros</a></li>
+          <li><a href="index.html#about" class="footer-link">Por qué nosotros</a></li>
           <li><a href="index.html#services" class="footer-link">Servicios</a></li>
-          <li><a href="index.html#blog" class="footer-link">Blog</a></li>
-          <li><a href="contacto.html" class="footer-link">Contáctanos</a></li>
+          <li><a href="index.html#features" class="footer-link">Cómo trabajamos</a></li>
+          <li><a href="index.html#blog" class="footer-link">Recursos</a></li>
         </ul>
 
         <ul class="footer-list">
           <li><p class="footer-list-title">Servicios</p></li>
-          <li><a href="index.html#services" class="footer-link">Estrategia & Analítica</a></li>
-          <li><a href="index.html#services" class="footer-link">Desarrollo Web</a></li>
-          <li><a href="index.html#services" class="footer-link">Integraciones & Automatización</a></li>
-          <li><a href="index.html#features" class="footer-link">Cómo lo hacemos</a></li>
+          <li><a href="ia.html" class="footer-link">Estrategia & Preparación</a></li>
+          <li><a href="asistente-personal.html" class="footer-link">Activación & Gestión (Google Ads)</a></li>
+          <li><a href="index.html#services" class="footer-link">Optimización & Escalado</a></li>
+        </ul>
+
+        <ul class="footer-list">
+          <li><p class="footer-list-title">Otros</p></li>
+          <li><a href="#" class="footer-link">Preguntas frecuentes</a></li>
+          <li><a href="#" class="footer-link">Política de privacidad</a></li>
+          <li><a href="#" class="footer-link">Términos y condiciones</a></li>
+          <li><a href="#" class="footer-link">Soporte</a></li>
         </ul>
 
         <ul class="footer-list">
           <li><p class="footer-list-title">Contacto</p></li>
           <li class="footer-item">
             <div class="footer-item-icon"><ion-icon name="call"></ion-icon></div>
-            <div><a href="tel:+34600000000" class="footer-item-link">+34 600 000 000</a></div>
+            <div><a href="tel:+34638834020" class="footer-item-link">+34 638 834 020</a></div>
           </li>
           <li class="footer-item">
             <div class="footer-item-icon"><ion-icon name="mail"></ion-icon></div>
-            <div><a href="mailto:hola@levantiq.com" class="footer-item-link">hola@levantiq.com</a></div>
+            <div><a href="mailto:jorge@growth-native.com" class="footer-item-link">jorge@growth-native.com</a></div>
           </li>
           <li class="footer-item">
             <div class="footer-item-icon"><ion-icon name="location"></ion-icon></div>
             <address class="footer-item-link">Madrid, España</address>
           </li>
         </ul>
-
       </div>
     </div>
 
     <div class="footer-bottom">
       <p class="copyright">
-        &copy; 2025 <a href="index.html" class="copyright-link">Levantiq</a>. Todos los derechos reservados.
+        &copy; 2025 <a href="#" class="copyright-link">GROWTH NATIVE</a>. Todos los derechos reservados.
       </p>
     </div>
   </footer>
+
 
   <!-- GO TO TOP -->
   <a href="#top" class="go-top active" aria-label="Volver arriba" data-go-top>
@@ -243,7 +211,7 @@
     Cal.ns["30min"]("inline", {
       elementOrSelector:"#my-cal-inline-30min",
       config: { "layout":"month_view" },
-      calLink: "ppt-boarding-okh1y4/30min"   // <-- sustituye por TU enlace real
+      calLink: "jorge-ceinos-evnlrc/15min"   // <-- sustituye por TU enlace real
     });
 
     Cal.ns["30min"]("ui", { "hideEventTypeDetails": false, "layout":"month_view" });
@@ -255,7 +223,7 @@
       btn.addEventListener('click', (e) => {
         // Evita salto brusco si hay hash
         if (btn.hash) e.preventDefault();
-        const cal = document.getElementById('my-cal-inline-30min');
+        const cal = document.getElementById('my-cal-inline-15min');
         if (cal) cal.scrollIntoView({ behavior:'smooth', block:'start' });
       });
     });

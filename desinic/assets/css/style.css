@@ -2021,3 +2021,7 @@ object.brand-logo, iframe.brand-logo{ display:block; }
   #features .features-card.in .icon::after{ display:none; }
 }
 
+/* En vista GRID, ocultar las slides clonadas del carrusel */
+.carousel.is-grid .carousel-slide[aria-hidden="true"] {
+  display: none !important;
+}

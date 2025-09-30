@@ -1,0 +1,72 @@
+Listado de rutas de carpetas
+El n£mero de serie del volumen es 9294-7F45
+C:.
+|   contacto.html
+|   estructura.txt
+|   favicon.svg
+|   index.html
+|   index.txt
+|   logo.html
+|   package.json
+|   README.md
+|   style-guide.md
+|   
++---api
+|       contact.js
+|       
++---assets
+|   +---css
+|   |       style.css
+|   |       
+|   +---images
+|   |       about-banner.png
+|   |       blog-1.jpg
+|   |       blog-2.jpg
+|   |       blog-3.jpg
+|   |       blog-4.jpg
+|   |       ChatGPT Image 17 sept 2025, 12_19_13-IA-Mujer.png
+|   |       ChatGPT Image 17 sept 2025, 12_19_34-IA-Hombre.png
+|   |       ChatGPT Image 17 sept 2025, 12_19_46-IA-Robot-Mujer.png
+|   |       ChatGPT Image 17 sept 2025, 12_20_20--IA-Robot-Mujer1.png
+|   |       ChatGPT Image 17 sept 2025, 12_20_27-IA-HombreEscribiendoOrdenador.png
+|   |       ChatGPT Image 17 sept 2025, 12_20_41-IA-MujerEscribiendoOrdenador.png
+|   |       ChatGPT Image 17 sept 2025, 12_20_45IA-MujerHablandoConIA.png
+|   |       ChatGPT Image 17 sept 2025, 12_20_48.-IA-MujerFotoPrincipal.png
+|   |       ChatGPT Image 17 sept 2025, 12_20_51-MujerFotoSecundaria.png
+|   |       ChatGPT Image 17 sept 2025, 13_06_08.png
+|   |       ChatGPT Image 17 sept 2025, 14_04_13Desarrolloweb-Tresfotos-en-una.png
+|   |       ChatGPT Image 17 sept 2025, 14_04_18-Desarrolloweb-Programador.png
+|   |       ChatGPT Image 17 sept 2025, 14_04_20-Desarrolloweb--usuario.png
+|   |       ChatGPT Image 17 sept 2025, 14_04_22Desarrolloweb-PersonasDisfrutando.png
+|   |       ChatGPT Image 17 sept 2025, 14_40_38DesarrolloWeb-Herramientas.png
+|   |       ChatGPT Image 17 sept 2025, 14_44_41-DesarrolloWeb-Codigo.png
+|   |       ChatGPT-Marketing1.png
+|   |       ChatGPT-Marketing2.png
+|   |       ChatGPT-Marketing3.png
+|   |       ChatGPT-Marketing4.png
+|   |       ChatGPT-Marketing5.png
+|   |       feautres-banner.png
+|   |       footer-bg.png
+|   |       hero-banner.png
+|   |       hero-bg-bottom.png
+|   |       hero-bg.png
+|   |       logoGoogleAdds.png
+|   |       logoMetaAdds-removebg-preview.png
+|   |       logoMetaAdds.jpg
+|   |       logoMetaAddsl.png
+|   |       service-banner-pattern.png
+|   |       
+|   \---js
+|           script.js
+|           
++---header-footer
+|       Footer.html
+|       Header.html
+|       
+\---Servicios
+        AudienciaCreatividad.html
+        EstrategiaPM.html
+        GestionCampanas.html
+        OptimizacionEscalado.html
+        ReportinAnalisis.html
+        
