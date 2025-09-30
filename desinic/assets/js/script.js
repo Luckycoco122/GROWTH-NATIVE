@@ -11,25 +11,17 @@
   };
   const on   = (t, type, fn, opt) => t && t.addEventListener(type, fn, opt);
 
-/* ========= Scroll en recarga / hash (no forzar al top) ========= */
-if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
-
-const clearHashOnFirstPaint = () => {
-  if (location.hash) {
-    // Quita el hash para evitar el salto automático del navegador
-    history.replaceState(null, '', location.pathname + location.search);
-    // Solo en este caso subimos al inicio
-    window.scrollTo(0, 0);
-  }
-};
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', clearHashOnFirstPaint, { once: true });
-} else {
-  clearHashOnFirstPaint();
-}
-
-
+  /* ========= Scroll en recarga / hash (no forzar top salvo #hash) ========= */
+  if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
+  const clearHashOnFirstPaint = () => {
+    if (location.hash) {
+      history.replaceState(null, '', location.pathname + location.search);
+      window.scrollTo(0, 0);
+    }
+  };
+  (document.readyState === 'loading')
+    ? document.addEventListener('DOMContentLoaded', clearHashOnFirstPaint, { once: true })
+    : clearHashOnFirstPaint();
 
   /* ========= Navbar / Overlay / Header sticky ========= */
   const header   = $('[data-header]');
@@ -39,19 +31,88 @@ if (document.readyState === 'loading') {
   const closeBtn = $('[data-nav-close-btn]');
   const goTopBtn = $('[data-go-top]');
 
-  const openNav  = () => { navbar?.classList.add('active'); overlay?.classList.add('active'); };
-  const closeNav = () => { navbar?.classList.remove('active'); overlay?.classList.remove('active'); };
+  /* ====== PINTAR LOGO / WORDMARK ====== */
+  const paintObject = (obj, color) => {
+    const doc = obj?.contentDocument;
+    if (!doc) return;
+    doc.documentElement.style.setProperty('--stroke', color);
+    doc.querySelectorAll('.oval').forEach(el => el.style.stroke = color);
+  };
+  const paintInline = (host, color) => {
+    const svg = host.matches?.('svg') ? host : host.querySelector?.('svg');
+    if (!svg) return;
+    svg.querySelectorAll('.oval').forEach(el => el.style.stroke = color);
+  };
+
+  const repaintBrand = () => {
+    const brandBlue   = getComputedStyle(document.documentElement)
+                          .getPropertyValue('--st-patricks-blue').trim() || '#1860AE';
+    const white       = '#fff';
+    const headerColor = getComputedStyle(header || document.documentElement).getPropertyValue('--color').trim();
+    const scrolled    = header?.classList.contains('active');
+    const menuOpen    = header?.classList.contains('menu-open');
+
+    // Regla: menú abierto => azul; si no, blanco arriba y azul al hacer scroll
+    const color = menuOpen ? brandBlue : (scrolled ? (headerColor || brandBlue) : white);
+
+    // 1) <object> directos o dentro de contenedores de marca
+    const objectEls = [
+      ...$$('object.brand-logo'),
+      ...$$('#brandLogo object'),
+      ...$$('#brandLogoMobile object'),
+      ...$$('.navbar-top object.brand-logo')
+    ];
+    objectEls.forEach(obj => {
+      if (obj.contentDocument) paintObject(obj, color);
+      else obj.addEventListener('load', () => paintObject(obj, color), { once:true });
+    });
+
+    // 2) SVG inline
+    [
+      ...$$('#brandLogo svg'),
+      ...$$('#brandLogoMobile svg')
+    ].forEach(svg => paintInline(svg, color));
+
+    // 3) Texto (wordmark) en header y en el panel móvil
+    [
+      ...$$('#brandLogo .brand-text'),
+      ...$$('#brandLogoMobile .brand-text'),
+      ...$$('.logo.brand'),
+      ...$$('.navbar-top .logo')
+    ].forEach(el => { el.style.color = color; });
+  };
+
+  const openNav  = () => {
+    navbar?.classList.add('active');
+    overlay?.classList.add('active');
+    header?.classList.add('menu-open'); // fuerza azul marca
+    repaintBrand();
+    // repinta otra vez por si el <object> tarda en cargar
+    setTimeout(repaintBrand, 0);
+  };
+  const closeNav = () => {
+    navbar?.classList.remove('active');
+    overlay?.classList.remove('active');
+    header?.classList.remove('menu-open');
+    repaintBrand();
+  };
 
   on(openBtn,  'click', openNav);
   on(closeBtn, 'click', closeNav);
   on(overlay,  'click', closeNav);
   $$('[data-navbar-link]').forEach(a => on(a, 'click', closeNav));
   on(window, 'keydown', e => (e.key === 'Escape') && closeNav());
+
   on(window, 'scroll', () => {
     const active = window.scrollY >= 400;
     header?.classList.toggle('active', active);
     goTopBtn?.classList.toggle('active', active);
+    repaintBrand();
   }, { passive: true });
+
+  on(document, 'DOMContentLoaded', repaintBrand, { once:true });
+  on(window, 'load', repaintBrand, { once:true });
+  on(window, 'resize', () => setTimeout(repaintBrand, 60), { passive:true });
 
   /* ========= Smooth scroll con offset de header ========= */
   on(document, 'click', (e) => {
@@ -63,8 +124,7 @@ if (document.readyState === 'loading') {
     if (!target) return;
     e.preventDefault();
     const headerH = header?.offsetHeight || 0;
-    const extra = 16;
-    const y = target.getBoundingClientRect().top + window.pageYOffset - headerH - extra;
+    const y = target.getBoundingClientRect().top + window.pageYOffset - headerH - 16;
     window.scrollTo({ top: y, behavior: 'smooth' });
   });
 
@@ -285,30 +345,6 @@ if (document.readyState === 'loading') {
     io.observe(section);
   }());
 
-  /* ========= Logo reactivo (usa vars CSS) ========= */
-  (function reactiveLogo(){
-    const paintObject = (obj, color) => {
-      const doc = obj.contentDocument; if (!doc) return;
-      doc.documentElement.style.setProperty('--stroke', color);
-      doc.querySelectorAll('.oval').forEach(el => el.style.stroke = color);
-    };
-    const paintInline = (host, color) => {
-      const svg = host.matches?.('svg') ? host : host.querySelector?.('svg');
-      svg && $$('.oval', svg).forEach(el => el.style.stroke = color);
-    };
-    const upd = () => {
-      const dark = cssn('--white', document.documentElement) ? getComputedStyle(document.documentElement).getPropertyValue('--white').trim() || '#fff' : '#fff';
-      const headerColor = getComputedStyle(header || document.documentElement).getPropertyValue('--color').trim();
-      const brandBlue = getComputedStyle(document.documentElement).getPropertyValue('--st-patricks-blue').trim() || '#1860AE';
-      const color = header?.classList.contains('active') ? (headerColor || brandBlue) : dark;
-      $$('object.brand-logo').forEach(obj => obj.contentDocument ? paintObject(obj, color) : on(obj, 'load', () => paintObject(obj, color), { once: true }));
-      $$('#brandLogo svg, #brandLogoMobile svg').forEach(svg => paintInline(svg, color));
-    };
-    on(window, 'load',  upd, { once:true });
-    on(window, 'scroll', upd, { passive:true });
-    on(document, 'click', e => { if (e.target.closest('[data-nav-open-btn],[data-nav-close-btn]')) setTimeout(upd, 0); });
-  }());
-
   /* ========= Servicios: Dispersión → Orden ========= */
   (function servicesScatter(){
     const root = $('#services .service-list'); if (!root) return;
@@ -347,139 +383,119 @@ if (document.readyState === 'loading') {
   }());
 
   /* ========= HERO: entrada + typing del título + revelado ========= */
-(function heroIntro(){
-  const hero    = $('.hero'); if (!hero) return;
-  const titleEl = $('.hero .hero-title'); if (!titleEl) return;
+  (function heroIntro(){
+    const hero    = $('.hero'); if (!hero) return;
+    const titleEl = $('.hero .hero-title'); if (!titleEl) return;
 
-  // envolver letras en spans (estado inicial semitransparente)
-  const wrapChars = (el) => {
-    if (el.dataset.typed === '1') return;
-    const text = el.textContent; el.textContent = '';
-    const frag = document.createDocumentFragment();
-    for (let i = 0; i < text.length; i++) {
-      const s = document.createElement('span');
-      s.className = 'char';
-      s.textContent = text[i];
-      frag.appendChild(s);
-    }
-    el.appendChild(frag);
-    el.dataset.typed = '1';
-  };
+    const wrapChars = (el) => {
+      if (el.dataset.typed === '1') return;
+      const text = el.textContent; el.textContent = '';
+      const frag = document.createDocumentFragment();
+      for (let i = 0; i < text.length; i++) {
+        const s = document.createElement('span');
+        s.className = 'char';
+        s.textContent = text[i];
+        frag.appendChild(s);
+      }
+      el.appendChild(frag);
+      el.dataset.typed = '1';
+    };
 
-  // typing
-  const typeTitle = (el) => {
+    const typeTitle = (el) => {
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const chars = $$('.char', el); if (!chars.length) return;
+      if (reduce){ chars.forEach(c => c.classList.add('on')); return; }
+      const step = cssn('--hero-typing-speed', document.documentElement, 36);
+      let i = 0;
+      (function tick(){
+        chars[i].classList.add('on');
+        if (++i < chars.length) setTimeout(tick, step);
+      })();
+    };
+
+    const revealRest = () => { hero.classList.add('text-reveal'); };
+    wrapChars(titleEl);
+
+    const start = () => {
+      if (hero.dataset.variant === 'swap') hero.classList.add('alt');
+      hero.classList.add('pre');
+      requestAnimationFrame(() => {
+        void hero.offsetWidth;
+        hero.classList.add('in');
+        hero.classList.remove('pre');
+
+        const moveDur = cssn('--hero-dur', document.querySelector('.hero') || document.documentElement, 0.95);
+        const moveMs  = Math.max(0, moveDur * 1000);
+
+        const ratio     = Math.min(1, Math.max(0, cssn('--hero-type-delay-ratio', document.documentElement, 0.35)));
+        const typeDelay = Math.max(60, Math.round(moveMs * ratio));
+        setTimeout(() => { typeTitle(titleEl); }, typeDelay);
+        setTimeout(() => { revealRest(); }, moveMs + 90);
+      });
+    };
+
+    (document.readyState === 'loading')
+      ? on(document, 'DOMContentLoaded', start, { once:true })
+      : start();
+  }());
+
+  /* === ABOUT · animar <strong> desde posiciones aleatorias === */
+  (() => {
+    const section = document.querySelector('#about');
+    if (!section) return;
+    const strongs = Array.from(section.querySelectorAll('.about-text strong'));
+    if (!strongs.length) return;
+
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const chars = $$('.char', el); if (!chars.length) return;
-    if (reduce){ chars.forEach(c => c.classList.add('on')); return; }
-    const step = cssn('--hero-typing-speed', document.documentElement, 36);
-    let i = 0;
-    (function tick(){
-      chars[i].classList.add('on');
-      if (++i < chars.length) setTimeout(tick, step);
-    })();
-  };
 
-  // revela subtítulo, párrafo y botón (fade + color)
-  const revealRest = () => { hero.classList.add('text-reveal'); };
-
-  // Pre-wrap para que el primer paint sea semitransparente
-  wrapChars(titleEl);
-
-  // Entrada + typing adelantado
- const start = () => {
-  // Si esta sección del hero debe ir “swap”, marca la clase .alt
-  // Opción A: controla por data-atributo en HTML: <section class="hero" data-variant="swap">
-  if (hero.dataset.variant === 'swap') hero.classList.add('alt');
-
-  // Dispara transición desde estado inicial (.pre) hacia .in
-  hero.classList.add('pre');
-  requestAnimationFrame(() => {
-    void hero.offsetWidth;           // asegura pintar .pre antes de .in
-    hero.classList.add('in');
-    hero.classList.remove('pre');
-
-    const moveDur = cssn('--hero-dur', document.querySelector('.hero') || document.documentElement, 0.95);
-    const moveMs  = Math.max(0, moveDur * 1000);
-
-    // Typing adelantado (empieza antes de que termine la entrada)
-    const ratio     = Math.min(1, Math.max(0, cssn('--hero-type-delay-ratio', document.documentElement, 0.35)));
-    const typeDelay = Math.max(60, Math.round(moveMs * ratio));
-    setTimeout(() => { typeTitle(titleEl); }, typeDelay);
-
-    // Revela resto al final
-    setTimeout(() => { revealRest(); }, moveMs + 90);
-  });
-};
-
-  (document.readyState === 'loading')
-    ? on(document, 'DOMContentLoaded', start, { once:true })
-    : start();
-}());
-
-
-/* === ABOUT · animar <strong> desde posiciones aleatorias === */
-(() => {
-  const section = document.querySelector('#about');
-  if (!section) return;
-
-  const strongs = Array.from(section.querySelectorAll('.about-text strong'));
-  if (!strongs.length) return;
-
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // Asigna offsets aleatorios de partida a cada <strong>
-  // Rango: ±60vw horizontal, ±40vh vertical, y una pequeña rotación.
-  strongs.forEach(s => {
-    const rx = (Math.random()*120 - 60).toFixed(1) + 'vw';
-    const ry = (Math.random()*80  - 40).toFixed(1) + 'vh';
-    const rot = (Math.random()*24 - 12).toFixed(1) + 'deg';
-    s.style.setProperty('--from-x', rx);
-    s.style.setProperty('--from-y', ry);
-    s.style.setProperty('--rot',    rot);
-  });
-
-  // Cuando la sección entra en viewport, “lanzamos” cada palabra
-  const io = new IntersectionObserver((entries, obs) => {
-    if (!entries.some(e => e.isIntersecting)) return;
-    const base = 120; // ms
     strongs.forEach(s => {
-      const jitter = Math.random() * 420;            // variación aleatoria
-      const delay  = reduce ? 0 : base + jitter;
-      setTimeout(() => s.classList.add('in'), delay);
-    });
-    obs.disconnect();
-  }, { threshold: 0.35 });
-
-  io.observe(section);
-})();
-
-/* === FEATURES · entrada escalonada + delays aleatorios === */
-(() => {
-  const section = document.querySelector('#features');
-  if (!section) return;
-
-  const cards = Array.from(section.querySelectorAll('.features-card'));
-  if (!cards.length) return;
-
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  const io = new IntersectionObserver((entries, obs) => {
-    if (!entries.some(e => e.isIntersecting)) return;
-
-    // Aplica un pequeño “jitter” aleatorio a cada card para que no entren todas igual
-    cards.forEach((card, i) => {
-      const base   = 80 * i;                 // escalonado por orden
-      const jitter = Math.random() * 220;    // variación aleatoria
-      const delay  = reduce ? 0 : base + jitter;
-      card.style.transitionDelay = `${delay}ms`;
-      card.classList.add('in');
+      const rx = (Math.random()*120 - 60).toFixed(1) + 'vw';
+      const ry = (Math.random()*80  - 40).toFixed(1) + 'vh';
+      const rot = (Math.random()*24 - 12).toFixed(1) + 'deg';
+      s.style.setProperty('--from-x', rx);
+      s.style.setProperty('--from-y', ry);
+      s.style.setProperty('--rot',    rot);
     });
 
-    obs.disconnect();
-  }, { threshold: 0.35 });
+    const io = new IntersectionObserver((entries, obs) => {
+      if (!entries.some(e => e.isIntersecting)) return;
+      const base = 120;
+      strongs.forEach(s => {
+        const jitter = Math.random() * 420;
+        const delay  = reduce ? 0 : base + jitter;
+        setTimeout(() => s.classList.add('in'), delay);
+      });
+      obs.disconnect();
+    }, { threshold: 0.35 });
 
-  io.observe(section);
-})();
+    io.observe(section);
+  })();
 
+  /* === FEATURES · entrada escalonada + delays aleatorios === */
+  (() => {
+    const section = document.querySelector('#features');
+    if (!section) return;
+
+    const cards = Array.from(section.querySelectorAll('.features-card'));
+    if (!cards.length) return;
+
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const io = new IntersectionObserver((entries, obs) => {
+      if (!entries.some(e => e.isIntersecting)) return;
+
+      cards.forEach((card, i) => {
+        const base   = 80 * i;
+        const jitter = Math.random() * 220;
+        const delay  = reduce ? 0 : base + jitter;
+        card.style.transitionDelay = `${delay}ms`;
+        card.classList.add('in');
+      });
+
+      obs.disconnect();
+    }, { threshold: 0.35 });
+
+    io.observe(section);
+  })();
 
 })();

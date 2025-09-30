@@ -348,6 +348,8 @@ body {
   gap: 30px;
 }
 
+  
+
 .logo {
   color: var(--color);
   font-family: var(--ff-source-sans-pro);
@@ -2019,3 +2021,31 @@ object.brand-logo, iframe.brand-logo{ display:block; }
   #features .features-card.in .icon::after{ display:none; }
 }
 
+/* Bloque de marca dentro del panel lateral */
+.navbar-top .logo.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  color: var(--st-patricks-blue);  /* azul marca fijo en el panel */
+  text-decoration:none;
+}
+
+.navbar-top .brand-logo{
+  width:36px; height:36px; flex:0 0 36px; display:block;
+}
+
+.navbar-top .brand-text{
+  font-family: var(--ff-source-sans-pro);
+  font-weight: var(--fw-700);
+  font-size: 2.4rem;
+  line-height: 1.05;
+  color: var(--st-patricks-blue);  /* texto azul marca */
+}
+
+/* Asegura fondo blanco en el panel para contraste */
+.navbar{
+  background-color: var(--white);
+}
+
+/* Cuando el menú está abierto, forzamos color de cabecera en azul (por si hay wordmark en el header visible tras el overlay) */
+.header.menu-open{ --color: var(--st-patricks-blue); }
