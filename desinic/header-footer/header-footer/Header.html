@@ -1,0 +1,62 @@
+<!-- #HEADER -->
+<header class="header" data-header>
+  <div class="container">
+    <div class="overlay" data-overlay></div>
+
+    <!-- Logo / Home -->
+    <a href="/index.html" class="logo brand" aria-label="Ir a inicio">
+      <object data="/logo.html" type="text/html" class="brand-logo" aria-label="Logo animado">
+        <!-- Fallback accesible si el <object> no carga -->
+        <span class="sr-only">GROWTH NATIVE</span>
+      </object>
+      <h1 class="logo">GROWTH NATIVE</h1>
+    </a>
+
+    <nav class="navbar" data-navbar aria-label="Navegación principal">
+      <div class="navbar-top">
+        <a href="/index.html" class="logo brand" aria-label="Ir a inicio">
+          <span id="brandLogoMobile" class="brand-logo" aria-hidden="true"></span>
+          <span class="brand-text">GROWTH NATIVE</span>
+        </a>
+        <button class="nav-close-btn" aria-label="Cerrar menú" data-nav-close-btn>
+          <ion-icon name="close-outline"></ion-icon>
+        </button>
+      </div>
+
+      <ul class="navbar-list">
+        <li class="navbar-item"><a href="/index.html" class="navbar-link" data-navbar-link>Inicio</a></li>
+        <li class="navbar-item"><a href="/index.html#about" class="navbar-link" data-navbar-link>Por qué nosotros</a></li>
+
+        <!-- Dropdown Servicios -->
+        <li class="navbar-item has-dropdown">
+          <button class="navbar-link dropdown-toggle"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  data-dropdown-toggle="services-menu">
+            Servicios
+            <ion-icon name="chevron-down-outline" class="chev" aria-hidden="true"></ion-icon>
+          </button>
+
+          <ul id="services-menu" class="dropdown" role="menu">
+            <li role="none"><a role="menuitem" href="/Servicios/EstrategiaPM.html" class="dropdown-link">Estrategia de Paid Media</a></li>
+            <li role="none"><a role="menuitem" href="/Servicios/GestionCampanas.html" class="dropdown-link">Gestión de Campañas</a></li>
+            <li role="none"><a role="menuitem" href="/Servicios/AudienciaCreatividad.html" class="dropdown-link">Audiencias & Creatividades</a></li>
+            <li role="none"><a role="menuitem" href="/Servicios/OptimizacionEscalado.html" class="dropdown-link">Optimización & Escalado</a></li>
+            <li role="none"><a role="menuitem" href="/Servicios/ReportinAnalisis.html" class="dropdown-link">Reporting & Análisis</a></li>
+          </ul>
+        </li>
+
+        <li class="navbar-item"><a href="/index.html#features" class="navbar-link" data-navbar-link>Cómo trabajamos</a></li>
+        <li class="navbar-item"><a href="/index.html#blog" class="navbar-link" data-navbar-link>Recursos</a></li>
+      </ul>
+    </nav>
+
+    <a href="/contacto.html?service=meta-ads#agenda" class="btn-cta" aria-label="Agendar una llamada de valoración">
+      <span>Contáctanos</span>
+    </a>
+
+    <button class="nav-open-btn" aria-label="Abrir menú" data-nav-open-btn>
+      <ion-icon name="menu-outline"></ion-icon>
+    </button>
+  </div>
+</header>
