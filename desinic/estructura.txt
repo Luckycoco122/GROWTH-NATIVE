@@ -63,6 +63,12 @@ C:.
 |       Footer.html
 |       Header.html
 |       
++---Other
+|       PoliticaPrivacidad.html
+|       PreguntasFrecuentes.html
+|       Soporte.html
+|       TerminosCondiciones.html
+|       
 \---Servicios
         AudienciaCreatividad.html
         EstrategiaPM.html

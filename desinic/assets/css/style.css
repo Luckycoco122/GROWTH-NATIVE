@@ -329,7 +329,7 @@ body {
   left: 0;
   width: 100%;
   padding-block: 14px;
-  z-index: 4;
+  z-index: 1001;
   transition: var(--transition-1);
 }
 
@@ -1413,49 +1413,57 @@ section[id],
 }
 /* ===== Carousel (override y consistencia) ===== */
 .carousel { position: relative; margin-top: 1.5rem; }
-.carousel-track {
+
+.carousel-track{
   display: flex; gap: 24px; overflow-x: scroll;
   -webkit-overflow-scrolling: auto; scroll-behavior: auto;
   padding: 8px 4px; scrollbar-width: none;
 }
-.carousel-track::-webkit-scrollbar { display: none; }
-.carousel .carousel-slide { flex: 0 0 360px; max-width: 420px; scroll-snap-align: start; }
-@media (min-width: 992px) { .carousel .carousel-slide { flex-basis: 420px; } }
+.carousel-track::-webkit-scrollbar{ display: none; }
 
-/* Si tu tema hace .service-list {display:grid}, lo forzamos a flex aquí */
-.carousel .service-list.carousel-track {
+.carousel .carousel-slide{
+  flex: 0 0 360px; max-width: 420px; scroll-snap-align: start;
+}
+@media (min-width: 992px){
+  .carousel .carousel-slide{ flex-basis: 420px; }
+}
+
+/* Si algún tema fuerza grid en .service-list, lo reponemos a flex aquí */
+.carousel .service-list.carousel-track{
   display: flex !important; flex-wrap: nowrap !important; gap: 24px !important;
 }
 
-.carousel .service-card { height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+.carousel .service-card{
+  height: 100%; display: flex; flex-direction: column; justify-content: space-between;
+}
 
-/* Flechas del carrusel: azul de marca */
+/* Flechas del carrusel */
 .carousel-btn{
-  position:absolute; top:50%; transform:translateY(-50%);
-  border:none; width:44px; height:44px; border-radius:999px;
+  position: absolute; top: 50%; transform: translateY(-50%);
+  border: none; width: 44px; height: 44px; border-radius: 999px;
   background: linear-gradient(135deg, var(--ksu-purple), var(--royal-blue-dark));
-  color:#fff; display:grid; place-items:center;
-  box-shadow: 0 8px 20px hsl(208 85% 53% / .35); /* ≈ var(--winter-sky) */
-  cursor:pointer; z-index:2;
+  color: #fff; display: grid; place-items: center;
+  box-shadow: 0 8px 20px hsl(208 85% 53% / .35);
+  cursor: pointer; z-index: 10;              /* < header (1000) */
   transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
 }
-.carousel-btn.prev{ left:-6px; }
-.carousel-btn.next{ right:-6px; }
+.carousel-btn.prev{ left: -6px; }
+.carousel-btn.next{ right: -6px; }
 .carousel-btn:hover,
 .carousel-btn:focus-visible{
   transform: translateY(-50%) scale(1.04);
   box-shadow: 0 10px 26px hsl(208 85% 53% / .45);
 }
-.carousel-btn:disabled{ opacity:.4; cursor:default; }
+.carousel-btn:disabled{ opacity: .4; cursor: default; }
 
 /* Botón alternar vista (rejilla/carrusel) */
 .view-toggle{
-  display:inline-grid; place-items:center;
-  width:44px; height:44px; border-radius:999px; border:0;
+  display: inline-grid; place-items: center;
+  width: 44px; height: 44px; border-radius: 999px; border: 0;
   background: linear-gradient(135deg, var(--ksu-purple), var(--royal-blue-dark));
-  color:#fff;
+  color: #fff;
   box-shadow: 0 8px 20px hsl(208 85% 53% / .35);
-  cursor:pointer;
+  cursor: pointer;
   transition: transform .18s ease, box-shadow .18s ease;
 }
 .view-toggle:hover,
@@ -1464,25 +1472,28 @@ section[id],
   box-shadow: 0 10px 26px hsl(208 85% 53% / .45);
 }
 
-.carousel .view-toggle{ position:absolute; right:8px; bottom:-28px; z-index:4; }
+/* Posición del botón dentro del carrusel:
+   z-index inferior al header para que nunca lo tape */
+.carousel .view-toggle{
+  position: absolute; right: 8px; bottom: -28px;
+  z-index: 500;                               /* < header (1000) */
+}
 
-.view-toggle ion-icon { font-size: 22px; }
+.view-toggle ion-icon{ font-size: 22px; }
 
 /* Animación suave al cambiar de vista */
-.carousel .carousel-track { transition: opacity .28s ease, transform .28s ease; }
-.carousel.switching .carousel-track { opacity: 0; transform: scale(.98); }
+.carousel .carousel-track{ transition: opacity .28s ease, transform .28s ease; }
+.carousel.switching .carousel-track{ opacity: 0; transform: scale(.98); }
 
 /* ===== Vista GRID ===== */
-.carousel.is-grid .carousel-btn { display: none !important; }   /* oculta flechas */
-.carousel.is-grid .carousel-track {
-  /* Rejilla fluida */
+.carousel.is-grid .carousel-btn{ display: none !important; }  /* oculta flechas */
+.carousel.is-grid .carousel-track{
   display: grid !important;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 24px !important;
-  overflow: visible; padding: 8px 0;     /* sin barra de scroll horizontal */
+  overflow: visible; padding: 8px 0;  /* sin scroll horizontal */
 }
-.carousel.is-grid .carousel-slide {
-  /* Las cards dejan de tener ancho fijo de carrusel */
+.carousel.is-grid .carousel-slide{
   flex: initial !important; max-width: none !important; width: auto !important;
   scroll-snap-align: unset;
 }
@@ -2025,3 +2036,5 @@ object.brand-logo, iframe.brand-logo{ display:block; }
 .carousel.is-grid .carousel-slide[aria-hidden="true"] {
   display: none !important;
 }
+
+
