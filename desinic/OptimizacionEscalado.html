@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Optimización & Escalado | Growth Native</title>
+
+  <!-- Meta SEO -->
+  <meta name="description" content="CRO, test A/B, mejora de CTR, control de CPA y ROAS. Sistema de experimentación y escalado disciplinado para crecer con datos." />
+  <meta name="keywords" content="CRO, Test A/B, CTR, CPA, ROAS, Experimentación, Escalado, Paid Media" />
+  <meta property="og:title" content="Optimización & Escalado — Growth Native" />
+  <meta property="og:description" content="Optimización continua: CRO, A/B testing, mejora de CTR, control de CPA y ROAS con un sistema de experimentación." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="es_ES" />
+
+  <!-- favicon -->
+  <link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml" />
+
+  <!-- css (igual que en index) -->
+  <link rel="stylesheet" href="/assets/css/style.css" />
+
+  <!-- google fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Source+Sans+Pro:wght@600;700&display=swap" rel="stylesheet" />
+
+  <!-- Breadcrumbs -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"BreadcrumbList",
+    "itemListElement":[
+      {"@type":"ListItem","position":1,"name":"Inicio","item":"/index.html"},
+      {"@type":"ListItem","position":2,"name":"Servicios","item":"/index.html#services"},
+      {"@type":"ListItem","position":3,"name":"Optimización & Escalado","item":"/Servicios/OptimizaciónEscalado.html"}
+    ]
+  }
+  </script>
+
+  <!-- Service schema -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Service",
+    "name":"Optimización & Escalado",
+    "provider":{"@type":"Organization","name":"Growth Native"},
+    "serviceType":"CRO, test A/B, mejora de CTR, control de CPA y ROAS",
+    "areaServed":"ES",
+    "description":"Sistema de experimentación para optimizar conversión, subir CTR y controlar CPA/ROAS, escalando con datos.",
+    "brand":"Growth Native"
+  }
+  </script>
+</head>
+<body id="top">
+
+  <!-- ===== HEADER (incluido dinámicamente como en index) ===== -->
+  <div data-include="/header-footer/Header.html"></div>
+
+  <main>
+    <article>
+
+      <!-- HERO -->
+      <section class="hero" style="padding-block-start:140px">
+        <div class="container">
+          <div class="hero-content">
+            <p class="hero-subtitle">Servicios</p>
+            <h1 class="h2 hero-title">Optimización & Escalado</h1>
+            <p class="hero-text">
+              <strong>CRO</strong>, <strong>test A/B</strong>, mejora de <strong>CTR</strong> y control de
+              <strong>CPA</strong>/<strong>ROAS</strong>. Un sistema de experimentación para reducir fricción,
+              aumentar conversión y escalar con seguridad.
+            </p>
+            <a class="btn" href="/contacto.html?service=optimizacion-escalado#agenda">
+              <span>Plan de optimización 90 días</span>
+            </a>
+          </div>
+
+          <figure class="hero-banner">
+            <img
+              class="w-100 banner-animation"
+              src="/assets/images/ChatGPT-Marketing1.png"
+              width="694" height="529" loading="lazy" alt="Optimización continua y escalado disciplinado">
+          </figure>
+        </div>
+      </section>
+
+      <!-- ABOUT / PROP. DE VALOR -->
+      <section class="section about" id="about">
+        <div class="container">
+
+          <figure class="about-banner">
+            <img
+              src="/assets/images/ChatGPT Image 17 sept 2025, 14_04_18-Desarrolloweb-Programador.png"
+              width="700" height="532" loading="lazy" alt="CRO, test A/B y control de costes"
+              class="w-100 banner-animation">
+          </figure>
+
+          <div class="about-content">
+            <h2 class="h2 section-title underline">Qué resolvemos</h2>
+            <p class="about-text">
+              Detectamos cuellos de botella (<strong>landing</strong>, <strong>checkout</strong>, mensajes, velocidad),
+              diseñamos <strong>tests A/B</strong>, mejoramos <strong>CTR</strong> y controlamos <strong>CPA</strong> y
+              <strong>ROAS</strong> con objetivos claros y ventanas de atribución definidas.
+            </p>
+
+            <ul class="stats-list">
+              <li class="stats-card">
+                <p class="h3 stats-title">+CVR</p>
+                <p class="stats-text">CRO en landings y checkout</p>
+              </li>
+              <li class="stats-card">
+                <p class="h3 stats-title">+CTR</p>
+                <p class="stats-text">Mensajes, creatividades y formatos</p>
+              </li>
+              <li class="stats-card">
+                <p class="h3 stats-title">CPA/ROAS</p>
+                <p class="stats-text">Control riguroso por canal</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- PILARES DEL SERVICIO (carrusel) -->
+      <section class="section service" id="services">
+        <div class="container">
+          <h2 class="h2 section-title underline">Pilares del servicio</h2>
+
+          <div id="oe-carousel" class="carousel" aria-roledescription="carrusel">
+            <button class="carousel-btn prev" aria-label="Anterior">
+              <ion-icon name="chevron-back-outline"></ion-icon>
+            </button>
+
+            <ul class="carousel-track service-list" role="listbox" aria-live="polite">
+              <!-- CRO & UX -->
+              <li class="carousel-slide" role="option" aria-label="CRO & UX">
+                <a href="#proceso-oe" class="service-card">
+                  <div class="card-icon"><ion-icon name="browsers-outline"></ion-icon></div>
+                  <h3 class="h3 title">CRO & UX</h3>
+                  <p class="text">Hipótesis sobre oferta, objeciones, confianza y velocidad. Roadmap de mejoras.</p>
+                </a>
+              </li>
+
+              <!-- Test A/B -->
+              <li class="carousel-slide" role="option" aria-label="Test A/B">
+                <a href="#proceso-oe" class="service-card">
+                  <div class="card-icon"><ion-icon name="git-compare-outline"></ion-icon></div>
+                  <h3 class="h3 title">Test A/B</h3>
+                  <p class="text">Diseño, tamaño de muestra, lectura y decisión (go/kill/iterate).</p>
+                </a>
+              </li>
+
+              <!-- Mejora de CTR -->
+              <li class="carousel-slide" role="option" aria-label="Mejora de CTR">
+                <a href="#proceso-oe" class="service-card">
+                  <div class="card-icon"><ion-icon name="trending-up-outline"></ion-icon></div>
+                  <h3 class="h3 title">Mejora de CTR</h3>
+                  <p class="text">Mensajería, hooks, formatos y placements para ganar clics de calidad.</p>
+                </a>
+              </li>
+
+              <!-- Control CPA & ROAS -->
+              <li class="carousel-slide" role="option" aria-label="Control de CPA y ROAS">
+                <a href="#proceso-oe" class="service-card">
+                  <div class="card-icon"><ion-icon name="speedometer-outline"></ion-icon></div>
+                  <h3 class="h3 title">Control de CPA & ROAS</h3>
+                  <p class="text">Budget pacing, pujas, ventanas y cohortes para rentabilidad sostenida.</p>
+                </a>
+              </li>
+            </ul>
+
+            <button class="carousel-btn next" aria-label="Siguiente">
+              <ion-icon name="chevron-forward-outline"></ion-icon>
+            </button>
+
+            <!-- Alternar vista (rejilla/carrusel) -->
+            <button class="view-toggle" type="button" aria-label="Cambiar a vista rejilla" data-view-toggle>
+              <ion-icon name="grid-outline" aria-hidden="true"></ion-icon>
+              <span class="sr-only">Cambiar vista</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROCESO -->
+      <section class="section features" id="features">
+        <div class="container">
+          <h2 class="h2 section-title underline">Nuestro proceso</h2>
+
+          <ul class="features-list">
+            <li>
+              <div class="features-card">
+                <div class="icon"><ion-icon name="search-circle-outline"></ion-icon></div>
+                <div class="content">
+                  <h3 class="h3 title">1) Diagnóstico</h3>
+                  <p class="text">Lectura del funnel: CTR, CVR, CPA, ROAS, tiempos y fricción por etapa.</p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="features-card">
+                <div class="icon"><ion-icon name="flask-outline"></ion-icon></div>
+                <div class="content">
+                  <h3 class="h3 title">2) Plan de tests</h3>
+                  <p class="text">Hipótesis priorizadas (ICE), tamaños de muestra, KPIs y umbrales de decisión.</p>
+                </div>
+              </div>
+            </li>
+          </ul>
+
+          <figure class="features-banner">
+            <img src="/assets/images/ChatGPT Image 17 sept 2025, 12_20_51-MujerFotoSecundaria.png" width="369" height="318" loading="lazy"
+                 alt="Marco de experimentación para optimización y escalado" class="w-100 banner-animation">
+          </figure>
+
+          <ul class="features-list">
+            <li>
+              <div class="features-card">
+                <div class="icon"><ion-icon name="rocket-outline"></ion-icon></div>
+                <div class="content">
+                  <h3 class="h3 title">3) Ejecución & lectura</h3>
+                  <p class="text">Implementación, control de calidad y lectura por cohorte/atribución.</p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="features-card">
+                <div class="icon"><ion-icon name="analytics-outline"></ion-icon></div>
+                <div class="content">
+                  <h3 class="h3 title">4) Escalado & gobierno</h3>
+                  <p class="text">Escalar ganadores, pausar perdedores y mantener el rendimiento con rotación.</p>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="section faq" id="faq">
+        <div class="container">
+          <h2 class="h2 section-title underline">Preguntas frecuentes</h2>
+
+        <div class="faq-grid">
+          <details class="faq-item">
+            <summary><span class="q">¿Qué volumen necesito para test A/B?</span><span class="toggle" aria-hidden="true"></span></summary>
+            <div class="a">Depende del baseline CVR/CTR y la magnitud esperada del efecto. Estimamos tamaño de muestra antes de lanzar.</div>
+          </details>
+
+          <details class="faq-item">
+            <summary><span class="q">¿Cómo decidís si un test es ganador?</span><span class="toggle" aria-hidden="true"></span></summary>
+            <div class="a">Umbrales de decisión y ventanas de atribución definidos. Lectura por cohorte y consistencia por canal.</div>
+          </details>
+
+          <details class="faq-item">
+            <summary><span class="q">¿Se optimiza solo la landing?</span><span class="toggle" aria-hidden="true"></span></summary>
+            <div class="a">No. Actuamos en mensajes, creatividades, targeting, ofertas y experiencia completa del funnel.</div>
+          </details>
+
+          <details class="faq-item">
+            <summary><span class="q">¿Cómo controláis CPA/ROAS al escalar?</span><span class="toggle" aria-hidden="true"></span></summary>
+            <div class="a">Budget pacing, límites por campaña/grupo, pujas, exclusiones y rotación creativa para mantener eficiencia.</div>
+          </details>
+        </div>
+      </section>
+
+      <!-- RECURSOS -->
+      <section class="section blog" id="recursos-oe">
+        <div class="container">
+          <h2 class="h2 section-title underline">Recursos y guías</h2>
+
+        <ul class="blog-list">
+          <li>
+            <div class="blog-card">
+              <figure class="banner">
+                <img src="/assets/images/personastrabajando7.jpg" width="750" height="350" loading="lazy" alt="Guía de CRO y priorización ICE" class="img-cover">
+              </figure>
+              <div class="content">
+                <h3 class="h3 title"><a href="#">CRO en 90 días</a></h3>
+                <p class="text">Cómo priorizar hipótesis con ICE y sostener mejoras de CVR.</p>
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <div class="blog-card">
+              <figure class="banner">
+                <img src="/assets/images/blog-2.jpg" width="750" height="350" loading="lazy" alt="Diseño de Test A/B" class="img-cover">
+              </figure>
+              <div class="content">
+                <h3 class="h3 title"><a href="#">Test A/B sin humo</a></h3>
+                <p class="text">Tamaños de muestra, duración y lectura por ventana de atribución.</p>
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <div class="blog-card">
+              <figure class="banner">
+                <img src="/assets/images/blog-3.jpg" width="750" height="350" loading="lazy" alt="Mejora de CTR y control de costes" class="img-cover">
+              </figure>
+              <div class="content">
+                <h3 class="h3 title"><a href="#">Sube CTR, cuida ROAS</a></h3>
+                <p class="text">Mensajería, creatividades y pacing para eficiencia a escala.</p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+      <!-- CTA FINAL -->
+      <section class="section" id="cta">
+        <div class="container" style="text-align:center">
+          <h2 class="h2 section-title underline">¿Optimizar y escalar con seguridad?</h2>
+          <p class="text" style="max-width:720px;margin-inline:auto">
+            Roadmap de CRO, plan de test A/B y control de CPA/ROAS para crecer sin sustos.
+          </p>
+          <br>
+          <a class="btn" href="/contacto.html#agenda">
+            <span>Quiero empezar</span>
+          </a>
+        </div>
+      </section>
+
+    </article>
+  </main>
+
+  <!-- ===== FOOTER (incluido dinámicamente, igual que en index) ===== -->
+  <div data-include="/header-footer/Footer.html"></div>
+
+  <!-- #GO TO TOP -->
+  <a href="#top" class="go-top active" aria-label="Volver arriba" data-go-top>
+    <ion-icon name="arrow-up-outline"></ion-icon>
+  </a>
+
+  <!-- js (igual que en index) -->
+  <script src="/assets/js/script.js"></script>
+
+  <!-- ionicons -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
