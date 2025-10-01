@@ -610,7 +610,7 @@ body {
 }
 
 .stats-card {
-  text-align: center;
+  text-align:center;
   padding: 15px;
   box-shadow: var(--shadow);
   border-radius: var(--radius-12);
@@ -2036,5 +2036,16 @@ object.brand-logo, iframe.brand-logo{ display:block; }
 .carousel.is-grid .carousel-slide[aria-hidden="true"] {
   display: none !important;
 }
+
+/* Ajusta el título de "Resultados" para alinearlo con la línea roja */
+#resultado-title{
+  /* prueba valores entre -12px y +12px según necesites */
+  margin-top: 17px;
+   margin-bottom: 28px;    /* o bien: transform: translateY(-6px); */
+}
+
+/* Si prefieres mover toda la tarjeta en vez del título: */
+/* #resultado-card { margin-top: -6px; } */
+
 
 
